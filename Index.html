@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Language Centre - Summer Camp Malaysia 2026</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        royal: '#0047AB',
+                        sky: '#00A8E8',
+                        gold: '#FFD700',
+                        lightGrey: '#F5F5F5',
+                        navy: '#051923',
+                        teal: '#008080'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Bungee', 'cursive'],
+                        nunito: ['Nunito', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'comic': '4px 4px 0px 0px rgba(0,0,0,1)',
+                        'comic-lg': '8px 8px 0px 0px rgba(0,0,0,1)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Bungee&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #0047AB;
+            --secondary: #00A8E8;
+            --accent: #FFD700;
+            --bg-page: #F5F5F5;
+            --comic-border: 3px solid #000000;
+        }
+
+        body { 
+            background-color: var(--bg-page);
+            color: #000;
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Pop Art Illustrations - Skyline Background */
+        .kl-illustration {
+            background: linear-gradient(to bottom, #00A8E8 0%, #E0F7FA 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skyline-vector {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 250px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/1999/xlink" viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg"><path d="M0 300h1000V150l-20-30-20 30v150H0z" fill="%230047AB" opacity="0.1"/><path d="M100 300V100h40v200zM200 300V50h50v250zM450 300V20h20v280zM530 300V20h20v280zM750 300V80h60v220z" fill="%230047AB" opacity="0.2"/></svg>');
+            background-repeat: repeat-x;
+            background-position: bottom;
+            z-index: 1;
+        }
+
+        /* Comic Style Elements */
+        .comic-card {
+            background: white;
+            border: var(--comic-border);
+            border-radius: 20px;
+            box-shadow: 6px 6px 0px #000;
+            transition: transform 0.2s ease;
+        }
+        .comic-card:hover {
+            transform: translate(-2px, -2px);
+            box-shadow: 8px 8px 0px #000;
+        }
+
+        .title-bubbly {
+            font-family: 'Bungee', cursive;
+            -webkit-text-stroke: 1.5px black;
+            text-shadow: 4px 4px 0px #000;
+        }
+
+        /* Zebra Striping for Logic Section */
+        .zebra-table { width: 100%; border-collapse: collapse; }
+        .zebra-table th { padding: 12px; border-bottom: 3px solid black; background: #051923; color: white; text-align: left; }
+        .zebra-table td { padding: 12px; border-bottom: 1px solid #ccc; }
+        .zebra-table tr:nth-child(even) { background-color: #E1F5FE; }
+        .zebra-table tr:nth-child(odd) { background-color: #FFFFFF; }
+        .zebra-table tr:last-child td { border-bottom: none; }
+
+        /* Polaroid Gallery */
+        .polaroid {
+            background: white;
+            padding: 12px 12px 60px 12px;
+            border: 2px solid #000;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+            transform: rotate(-2deg);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .polaroid:nth-child(even) { transform: rotate(3deg); }
+        .polaroid:hover { transform: rotate(0deg) scale(1.05); z-index: 20; box-shadow: 10px 10px 0px #FFD700; }
+        .polaroid.dragging { opacity: 0.5; transform: scale(0.95); z-index: 50; }
+
+        body.admin-mode .polaroid { cursor: grab; }
+        body.admin-mode .polaroid:active { cursor: grabbing; }
+
+        /* Social Bar */
+        .social-bar {
+            border-top: 1px solid #eee;
+            margin-top: 10px;
+            padding-top: 8px;
+            font-size: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+        }
+
+        /* Location Tag */
+        .location-tag {
+            background: #000;
+            color: #fff;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* RTL Adjustments */
+        [dir="rtl"] .title-bubbly { text-shadow: -4px 4px 0px #000; }
+        [dir="rtl"] .zebra-table th { text-align: right; }
+
+        .btn-pop {
+            background: #FFD700;
+            border: 3px solid black;
+            box-shadow: 4px 4px 0px black;
+            transition: all 0.1s;
+            cursor: pointer;
+        }
+        .btn-pop:active {
+            transform: translate(2px, 2px);
+            box-shadow: 0px 0px 0px black;
+        }
+
+        /* Admin Controls */
+        .admin-controls { display: none; }
+        body.admin-mode .admin-controls { display: block; }
+        body.admin-mode .polaroid .hide-btn {
+            display: flex; position: absolute; top: -10px; right: -10px;
+            background: red; color: white; width: 30px; height: 30px; border-radius: 50%;
+            border: 2px solid black; align-items: center; justify-content: center;
+            cursor: pointer; font-weight: bold; z-index: 30;
+        }
+        body.admin-mode [contenteditable="true"] {
+            border-bottom: 1px dashed gray; background: rgba(255, 215, 0, 0.2); outline: none; cursor: text;
+        }
+        .hide-btn { display: none; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 top-0 border-b-4 border-black bg-white">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="font-display text-xl md:text-2xl text-royal truncate" data-i18n="brand">PREMIUM LANGUAGE CENTRE</div>
+            
+            <div class="hidden lg:flex gap-6 text-xs uppercase font-black items-center">
+                <a href="#crew" class="hover:underline text-black" data-i18n="nav-crew">Crew</a>
+                <a href="#packages" class="hover:underline text-black" data-i18n="nav-packages">Packages</a>
+                <a href="#city-tour" class="hover:underline text-black" data-i18n="nav-tour">City Tour</a>
+                <a href="#gallery-section" class="hover:underline text-black" data-i18n="nav-gallery">Gallery</a>
+                <a href="#accommodations" class="hover:underline text-black" data-i18n="nav-acc">Accommodations</a>
+                
+                <div class="flex gap-3 items-center border-l-2 border-black pl-4">
+                    <select id="lang-select" class="bg-transparent font-black outline-none cursor-pointer text-black" onchange="window.setLanguage(this.value)">
+                        <option value="en">EN</option>
+                        <option value="ar">AR</option>
+                        <option value="zh">ZH</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button onclick="window.openModal('regModal')" class="btn-pop px-4 py-1.5 rounded-sm font-black text-[10px] md:text-xs uppercase tracking-tighter" data-i18n="nav-apply">Apply Now</button>
+        </div>
+    </nav>
+
+    <!-- Hero Header (Illustrated) -->
+    <header class="kl-illustration min-h-screen flex items-center justify-center pt-20 pb-32 text-center px-6 relative">
+        <div class="skyline-vector"></div>
+        <div class="relative z-10 max-w-5xl">
+            <div class="inline-block mb-4 px-4 py-1 bg-royal text-white border-2 border-black shadow-comic text-xs font-black uppercase" data-i18n="hero-badge">
+                Winter & Summer 2026
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl title-bubbly text-white mb-4 leading-none" data-i18n="hero-title">
+                MASTER ENGLISH.<br><span class="text-gold">DISCOVER MALAYSIA.</span>
+            </h1>
+            <p class="text-royal font-black text-sm md:text-lg mb-8 uppercase tracking-widest bg-white/90 inline-block px-6 py-2 border-2 border-black shadow-comic" data-i18n="hero-sub">
+                A vibrant immersive journey in the heart of Kuala Lumpur.
+            </p>
+            <div class="mt-4">
+                <button onclick="window.openModal('regModal')" class="btn-pop px-12 py-4 text-xl font-black rounded-none uppercase" data-i18n="nav-apply">Start Your Journey</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Sections (Feed Structure) -->
+    <main class="max-w-5xl mx-auto px-4 -mt-20 relative z-20 space-y-16 pb-24">
+        
+        <!-- Crew Section -->
+        <section id="crew" class="space-y-8 comic-card p-8 bg-white/50 backdrop-blur-sm">
+            <div class="text-center">
+                <h2 class="text-4xl md:text-5xl font-display text-black mb-2" data-i18n="crew-title">MEET THE <span class="text-royal">CREW</span></h2>
+                <p class="font-bold text-gray-600 uppercase text-xs" data-i18n="crew-sub">The expert educators of Premium Language Centre</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="comic-card p-6 text-center bg-white">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-royal mb-4 object-cover">
+                    <h3 class="font-black text-royal text-sm md:text-base" data-i18n="crew-adrian-name">Adrian</h3>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase" data-i18n="crew-adrian-role">Principal</p>
+                </div>
+                <div class="comic-card p-6 text-center bg-white">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-sky mb-4 object-cover">
+                    <h3 class="font-black text-royal text-sm md:text-base" data-i18n="crew-presh-name">Preshsenna</h3>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase" data-i18n="crew-presh-role">Teacher Head</p>
+                </div>
+                <div class="comic-card p-6 text-center bg-white">
+                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-gold mb-4 object-cover">
+                    <h3 class="font-black text-royal text-sm md:text-base" data-i18n="crew-alya-name">Alya</h3>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase" data-i18n="crew-alya-role">Teacher Senior</p>
+                </div>
+                <div class="comic-card p-6 text-center bg-white">
+                    <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-teal mb-4 object-cover">
+                    <h3 class="font-black text-royal text-sm md:text-base" data-i18n="crew-izah-name">Izah</h3>
+                    <p class="text-[10px] font-bold text-gray-500 uppercase" data-i18n="crew-izah-role">Teacher Summer Camp</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Packages Section -->
+        <section id="packages" class="space-y-8">
+            <div class="text-center">
+                <h2 class="text-4xl md:text-5xl font-display text-black mb-2" data-i18n="pkg-main-title">OUR <span class="text-sky">PACKAGES</span></h2>
+            </div>
+
+            <div class="comic-card overflow-hidden">
+                <div class="bg-royal text-white p-4 font-display text-center md:text-xl border-b-2 border-black" data-i18n="pkg-t1-title">ENGLISH ONLY PACKAGES</div>
+                <div class="p-4 overflow-x-auto">
+                    <table class="zebra-table min-w-[600px]">
+                        <thead>
+                            <tr>
+                                <th data-i18n="th-duration">Duration</th>
+                                <th data-i18n="th-hours">Hours / Day</th>
+                                <th data-i18n="th-benefits">Benefits included</th>
+                                <th data-i18n="th-price">Price (RM)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="font-bold text-sm">
+                            <tr>
+                                <td data-i18n="dur-1w">1 Week</td>
+                                <td data-i18n="hr-4">4 Hours IGE + 2 Hours ELA</td>
+                                <td data-i18n="ben-basic">Classes, Materials, Registration Fee</td>
+                                <td class="text-royal text-lg">1,500</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="dur-2w">2 Weeks</td>
+                                <td data-i18n="hr-4">4 Hours IGE + 2 Hours ELA</td>
+                                <td data-i18n="ben-basic">Classes, Materials, Registration Fee</td>
+                                <td class="text-royal text-lg">2,800</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="dur-3w">3 Weeks</td>
+                                <td data-i18n="hr-4">4 Hours IGE + 2 Hours ELA</td>
+                                <td data-i18n="ben-basic">Classes, Materials, Registration Fee</td>
+                                <td class="text-royal text-lg">3,900</td>
+                            </tr>
+                            <tr>
+                                <td data-i18n="dur-4w">4 Weeks</td>
+                                <td data-i18n="hr-4">4 Hours IGE + 2 Hours ELA</td>
+                                <td data-i18n="ben-basic">Classes, Materials, Registration Fee</td>
+                                <td class="text-royal text-lg">4,500</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="comic-card overflow-hidden">
+                <div class="bg-gold text-black p-4 font-display text-center md:text-xl border-b-2 border-black" data-i18n="pkg-t2-title">1 MONTH IMMERSIVE + TRIPS</div>
+                <div class="p-4 overflow-x-auto">
+                    <table class="zebra-table min-w-[600px]">
+                        <thead>
+                            <tr>
+                                <th data-i18n="th-tier">Tier</th>
+                                <th data-i18n="th-hours">Hours / Day</th>
+                                <th data-i18n="th-benefits">Benefits included</th>
+                                <th data-i18n="th-price">Price (RM)</th>
+                            </tr>
+                        </thead>
+                        <tbody class="font-bold text-sm">
+                            <tr>
+                                <td data-i18n="tier-noacc">1 Month Without Accommodation</td>
+                                <td data-i18n="hr-6">6 Hours Daily</td>
+                                <td data-i18n="ben-trips">Classes, Lunch, Selected Weekend Trips</td>
+                                <td class="text-royal text-lg">7,800</td>
+                            </tr>
+                            <tr class="bg-sky/20">
+                                <td class="text-royal" data-i18n="tier-full">1 Month Full Package</td>
+                                <td data-i18n="hr-6">6 Hours Daily</td>
+                                <td data-i18n="ben-full">Premium Accomm, All Meals, All Trips, Airport VIP</td>
+                                <td class="text-royal text-lg">15,000</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Google Drive RESTORED GALLERY -->
+        <section id="gallery-section" class="py-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-3xl md:text-4xl font-display text-black" data-i18n="gal-title">CAMP <span class="text-sky">MEMORIES</span></h2>
+                <button class="admin-controls btn-pop px-3 py-1 text-xs font-black uppercase" onclick="window.addImage('gallery-grid', 'New Memory')">+ Add Image</button>
+            </div>
+            
+            <div id="status-container" class="mb-8">
+                <span id="status" class="bg-black text-white px-4 py-2 text-[10px] uppercase font-black" data-i18n="gal-status">Diving in... Fetching from Drive</span>
+            </div>
+
+            <div class="hidden">
+                <input type="text" id="apiKey" value="AIzaSyD-sm82m3bo2csbwceLiYYrpwGnhBi4ZpE">
+                <input type="text" id="folderId" value="1J_8QL9y1MIX7MKlJanTStcJ4r4YbyYlr">
+            </div>
+
+            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 admin-sortable-grid">
+                <!-- Driven by API -->
+            </div>
+        </section>
+
+        <!-- Malaysian City Tour Gallery -->
+        <section id="city-tour" class="py-8">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-display text-black" data-i18n="tour-title">MALAYSIAN <span class="text-sky">CITY TOUR</span></h2>
+                <button class="admin-controls btn-pop px-3 py-1 text-xs font-black uppercase" onclick="window.addImage('tour-grid', 'Merdeka Square')">+ Add Image</button>
+            </div>
+            
+            <div id="tour-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 admin-sortable-grid">
+                <div class="polaroid" draggable="false">
+                    <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
+                    <div class="location-tag mb-2">
+                        <i class="fa-solid fa-location-dot"></i> <span contenteditable="false" class="editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()">Petronas Twin Towers</span> <i class="fa-solid fa-chevron-right ml-2"></i>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=600" class="w-full aspect-square object-cover border border-black mb-4 pointer-events-none" loading="lazy">
+                    <div class="social-bar"><span><i class="fa-regular fa-heart"></i> Like</span><span><i class="fa-regular fa-comment"></i> Share</span></div>
+                </div>
+                
+                <div class="polaroid" draggable="false">
+                    <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
+                    <div class="location-tag mb-2 bg-royal">
+                        <i class="fa-solid fa-location-dot"></i> <span contenteditable="false" class="editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()">Batu Caves</span> <i class="fa-solid fa-chevron-right ml-2"></i>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1583344604944-4682057d0961?auto=format&fit=crop&w=600" class="w-full aspect-square object-cover border border-black mb-4 pointer-events-none" loading="lazy">
+                    <div class="social-bar"><span><i class="fa-regular fa-heart"></i> Like</span><span><i class="fa-regular fa-comment"></i> Share</span></div>
+                </div>
+
+                <div class="polaroid" draggable="false">
+                    <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
+                    <div class="location-tag mb-2 bg-teal">
+                        <i class="fa-solid fa-location-dot"></i> <span contenteditable="false" class="editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()">Malacca Heritage</span> <i class="fa-solid fa-chevron-right ml-2"></i>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1601224285093-f11910609346?auto=format&fit=crop&w=600" class="w-full aspect-square object-cover border border-black mb-4 pointer-events-none" loading="lazy">
+                    <div class="social-bar"><span><i class="fa-regular fa-heart"></i> Like</span><span><i class="fa-regular fa-comment"></i> Share</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Premium Accommodations -->
+        <section id="accommodations" class="py-8">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-display text-black" data-i18n="acc-title">PREMIUM <span class="text-gold">ACCOMMODATIONS</span></h2>
+                <button class="admin-controls btn-pop px-3 py-1 text-xs font-black uppercase" onclick="window.addImage('acc-grid', 'Premium Room')">+ Add Image</button>
+            </div>
+            
+            <div id="acc-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 admin-sortable-grid">
+                <div class="polaroid" draggable="false">
+                    <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
+                    <div class="location-tag mb-2 bg-navy">
+                        <i class="fa-solid fa-bed"></i> <span contenteditable="false" class="editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()">Student Dorms</span> <i class="fa-solid fa-chevron-right ml-2"></i>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=600" class="w-full aspect-square object-cover border border-black mb-4 pointer-events-none" loading="lazy">
+                    <div class="social-bar"><span><i class="fa-solid fa-wifi"></i> Free WiFi</span><span><i class="fa-solid fa-shield-halved"></i> 24/7 Security</span></div>
+                </div>
+                
+                <div class="polaroid" draggable="false">
+                    <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
+                    <div class="location-tag mb-2 bg-navy">
+                        <i class="fa-solid fa-utensils"></i> <span contenteditable="false" class="editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()">Dining Hall</span> <i class="fa-solid fa-chevron-right ml-2"></i>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600" class="w-full aspect-square object-cover border border-black mb-4 pointer-events-none" loading="lazy">
+                    <div class="social-bar"><span><i class="fa-solid fa-check"></i> Halal Provided</span><span><i class="fa-solid fa-mug-hot"></i> All Meals</span></div>
+                </div>
+                
+                <div class="polaroid" draggable="false">
+                    <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
+                    <div class="location-tag mb-2 bg-navy">
+                        <i class="fa-solid fa-swimmer"></i> <span contenteditable="false" class="editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()">Facilities</span> <i class="fa-solid fa-chevron-right ml-2"></i>
+                    </div>
+                    <img src="https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=600" class="w-full aspect-square object-cover border border-black mb-4 pointer-events-none" loading="lazy">
+                    <div class="social-bar"><span><i class="fa-solid fa-dumbbell"></i> Gym Access</span><span><i class="fa-solid fa-water"></i> Pool Area</span></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t-4 border-black py-12 text-center relative">
+        <div class="max-w-md mx-auto flex flex-col items-center">
+            <h3 class="font-display text-royal text-xl mb-4" data-i18n="footer-qr">Register via WeChat</h3>
+            <div class="border-4 border-black p-2 bg-lightGrey mb-6 inline-block transform -rotate-2 hover:rotate-0 transition">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=WeChatRegistrationMock" alt="WeChat QR" class="w-32 h-32 object-cover bg-white">
+            </div>
+            <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-2" data-i18n="footer">© 2026 Premium Language Centre</p>
+            <p class="text-[10px] text-gray-400 font-bold">Email: Djamel24@premium.edu.my</p>
+            
+            <!-- Admin Lock Icon -->
+            <div class="mt-8 text-gray-300 hover:text-royal transition cursor-pointer" onclick="window.toggleAdmin()">
+                <i class="fa-solid fa-lock text-2xl" title="Admin Access"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Registration Modal -->
+    <div id="regModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-royal/80 backdrop-blur-sm p-4">
+        <div class="comic-card w-full max-w-lg p-6 md:p-8 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="window.closeModal('regModal')" class="absolute top-4 right-4 font-black text-2xl hover:text-royal cursor-pointer">×</button>
+            
+            <h2 class="text-2xl md:text-3xl font-display text-royal mb-2" data-i18n="modal-title">SECURE YOUR SPOT</h2>
+            <p class="text-xs font-bold text-gray-600 uppercase mb-6" data-i18n="modal-sub">Fast Registration via Email</p>
+            
+            <!-- FORMSPREE INTEGRATED FORM (onsubmit Added) -->
+            <form action="https://formspree.io/f/maqlvoge" method="POST" onsubmit="window.handleRegistration(event)" class="space-y-4 font-bold text-xs uppercase text-black">
+                <div>
+                    <label class="block mb-1" data-i18n="form-name">Name (Agent or Parent)*</label>
+                    <input type="text" name="Parent Name" id="formName" required class="w-full border-2 border-black p-3 focus:bg-sky/10 outline-none rounded-none">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-1" data-i18n="form-country">Country*</label>
+                        <input type="text" name="Country" id="formCountry" required class="w-full border-2 border-black p-3 outline-none focus:bg-sky/10 rounded-none">
+                    </div>
+                    <div>
+                        <label class="block mb-1" data-i18n="form-kids">Kids Number*</label>
+                        <input type="number" name="Kids Number" id="formKids" value="1" min="1" required class="w-full border-2 border-black p-3 outline-none focus:bg-sky/10 rounded-none">
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block mb-1" data-i18n="form-pkg">Choosing Package*</label>
+                    <select name="Package Selection" id="formPackage" required class="w-full border-2 border-black p-3 outline-none focus:bg-sky/10 rounded-none cursor-pointer">
+                        <optgroup label="English Only">
+                            <option value="English Only - 1 Week">1 Week (RM 1,500)</option>
+                            <option value="English Only - 2 Weeks">2 Weeks (RM 2,800)</option>
+                            <option value="English Only - 3 Weeks">3 Weeks (RM 3,900)</option>
+                            <option value="English Only - 4 Weeks">4 Weeks (RM 4,500)</option>
+                        </optgroup>
+                        <optgroup label="Immersive 1 Month">
+                            <option value="1 Month Without Accommodation">Without Accommodation (RM 7,800)</option>
+                            <option value="1 Month Full Package">Full Package (RM 15,000)</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block mb-1" data-i18n="form-contact">WhatsApp / WeChat ID*</label>
+                    <input type="text" name="Contact Number" id="formContact" required class="w-full border-2 border-black p-3 focus:bg-sky/10 outline-none rounded-none" placeholder="+60 12-345 6789 or WeChat ID">
+                </div>
+
+                <div class="pt-4 border-t-2 border-dashed border-gray-300">
+                    <button type="submit" class="btn-pop w-full py-4 text-sm md:text-base font-black uppercase rounded-none" data-i18n="form-btn">Confirm Registration</button>
+                </div>
+            </form>
+            <!-- END FORMSPREE INTEGRATED FORM -->
+            
+            <div class="mt-6 text-center">
+                <p class="text-[10px] font-black uppercase text-gray-500 mb-2">Or Scan WeChat QR</p>
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=WeChatRegistrationMock" alt="WeChat QR" class="w-20 h-20 mx-auto border-2 border-black">
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminModal" class="hidden fixed inset-0 z-[110] items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="comic-card w-full max-w-sm p-6 relative bg-white text-center">
+            <button onclick="window.closeModal('adminModal')" class="absolute top-2 right-4 font-black text-2xl hover:text-royal">×</button>
+            <h2 class="text-2xl font-display text-royal mb-4">ADMIN ACCESS</h2>
+            <input type="password" id="adminPwd" class="w-full border-2 border-black p-2 mb-4 outline-none focus:bg-sky/10 text-center" placeholder="Enter Password">
+            <button onclick="window.checkAdmin()" class="btn-pop w-full py-2 font-black uppercase">Login</button>
+        </div>
+    </div>
+
+    <!-- Custom Dialog Overlay -->
+    <div id="dialogOverlay" class="hidden fixed inset-0 z-[200] bg-black/60 items-center justify-center p-4">
+        <div class="comic-card w-full max-w-sm p-6 bg-white text-center">
+            <h3 id="dialogMessage" class="text-sm font-black mb-4 uppercase text-black whitespace-pre-wrap"></h3>
+            <input type="text" id="dialogInput" class="hidden w-full border-2 border-black p-2 mb-4 outline-none focus:bg-sky/10 text-center">
+            <div class="flex gap-2 justify-center">
+                <button id="dialogCancel" class="hidden btn-pop bg-gray-200 px-4 py-2 font-black uppercase">Cancel</button>
+                <button id="dialogOk" class="btn-pop px-4 py-2 font-black uppercase bg-gold">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Consolidated Unified Application Logic (Firebase + Local) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global State & Setup
+        window.isAdmin = false;
+        window.isEditing = false;
+        window.savedDriveData = [];
+        let auth, db, appId, currentUser;
+
+        // Visual Toasts
+        window.showToast = function(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-navy text-gold px-4 py-2 border-2 border-black shadow-comic z-[9999] opacity-0 transition-opacity duration-300 font-bold text-xs uppercase';
+            toast.innerText = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.classList.remove('opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+
+        // Firebase Initialization & Realtime Sync
+        try {
+            const firebaseConfig = JSON.parse(__firebase_config);
+            const app = initializeApp(firebaseConfig);
+            auth = getAuth(app);
+            db = getFirestore(app);
+            appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            
+            const initAuth = async () => {
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            };
+            
+            initAuth();
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    currentUser = user;
+                    const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'adminState', 'grids');
+                    
+                    // Listen to live Cloud Updates
+                    onSnapshot(docRef, (docSnap) => {
+                        // Prevent UI jumping while user is typing or dragging
+                        if (docSnap.exists() && !window.isEditing) {
+                            const state = docSnap.data();
+                            window.savedDriveData = state.driveData || [];
+                            
+                            if(state.tour && state.tour.length > 0) rebuildGrid('tour-grid', state.tour);
+                            if(state.acc && state.acc.length > 0) rebuildGrid('acc-grid', state.acc);
+                            
+                            // Re-apply memory to Drive Gallery 
+                            const driveGrid = document.getElementById('gallery-grid');
+                            if(driveGrid && driveGrid.children.length > 0) {
+                                document.querySelectorAll('#gallery-grid .polaroid').forEach(el => {
+                                    const imgEl = el.querySelector('img');
+                                    const textEl = el.querySelector('.editable-text');
+                                    if(!imgEl || !textEl) return;
+                                    
+                                    const existing = window.savedDriveData.find(d => d.img === imgEl.src);
+                                    if (existing) {
+                                        el.style.display = existing.hidden ? 'none' : 'block';
+                                        textEl.innerText = existing.label || textEl.innerText;
+                                    }
+                                });
+                            }
+                        }
+                    }, (error) => {
+                        console.error("Firestore onSnapshot error:", error);
+                    });
+                }
+            });
+        } catch (err) {
+            console.error("Firebase config missing or init failed:", err);
+        }
+
+        // Push Local Edits to Cloud
+        window.saveAdminState = async function() {
+            if (!currentUser) return;
+            
+            const state = { tour: [], acc: [], driveData: [] };
+            
+            document.querySelectorAll('#tour-grid .polaroid').forEach(el => {
+                state.tour.push({
+                    label: el.querySelector('.editable-text').innerText || "Unknown",
+                    img: el.querySelector('img').src || "",
+                    hidden: el.style.display === 'none'
+                });
+            });
+
+            document.querySelectorAll('#acc-grid .polaroid').forEach(el => {
+                state.acc.push({
+                    label: el.querySelector('.editable-text').innerText || "Unknown",
+                    img: el.querySelector('img').src || "",
+                    hidden: el.style.display === 'none'
+                });
+            });
+
+            document.querySelectorAll('#gallery-grid .polaroid').forEach(el => {
+                state.driveData.push({
+                    label: el.querySelector('.editable-text').innerText || "Camp Memory",
+                    img: el.querySelector('img').src || "",
+                    hidden: el.style.display === 'none'
+                });
+            });
+
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'adminState', 'grids');
+                await setDoc(docRef, state);
+                window.showToast("Changes Saved to Cloud ☁️");
+            } catch (e) { 
+                console.error("Error saving state to cloud:", e); 
+                window.showToast("Save Failed!");
+            }
+        };
+
+        // UI Grid Re-builder
+        function rebuildGrid(containerId, dataArray) {
+            const container = document.getElementById(containerId);
+            if(!container) return;
+            container.innerHTML = ''; 
+            dataArray.forEach(item => {
+                const newCard = document.createElement('div');
+                newCard.className = 'polaroid';
+                newCard.style.display = item.hidden ? 'none' : 'block';
+                newCard.setAttribute('draggable', window.isAdmin ? 'true' : 'false');
+                
+                const iconColor = containerId === 'acc-grid' ? 'bg-navy' : 'bg-black';
+                const tagIcon = containerId === 'acc-grid' ? 'fa-bed' : 'fa-location-dot';
+
+                newCard.innerHTML = `
+                    <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
+                    <div class="location-tag mb-2 ${iconColor}">
+                        <i class="fa-solid ${tagIcon}"></i> <span contenteditable="${window.isAdmin}" class="editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()">${item.label}</span> <i class="fa-solid fa-chevron-right ml-2"></i>
+                    </div>
+                    <img src="${item.img}" class="w-full aspect-square object-cover border border-black mb-4 pointer-events-none" onerror="this.src='https://placehold.co/600x600?text=Invalid+Image'">
+                    <div class="social-bar">
+                        <span><i class="fa-regular fa-heart"></i> Like</span>
+                        <span><i class="fa-regular fa-comment"></i> Share</span>
+                    </div>
+                `;
+                container.appendChild(newCard);
+            });
+            window.initDragAndDrop();
+        }
+
+        // Language & UI Controls
+        const translations = {
+            en: {
+                "brand": "PREMIUM LANGUAGE CENTRE", "nav-apply": "Apply Now", "hero-badge": "Winter & Summer 2026",
+                "nav-crew": "Crew", "nav-packages": "Packages", "nav-tour": "City Tour", "nav-acc": "Accommodations", "nav-gallery": "Gallery",
+                "hero-title": "MASTER ENGLISH.<br><span class='text-gold'>DISCOVER MALAYSIA.</span>",
+                "hero-sub": "A vibrant immersive journey in the heart of Kuala Lumpur.",
+                "crew-title": "MEET THE <span class='text-royal'>CREW</span>", "crew-sub": "The expert educators of Premium Language Centre",
+                "crew-adrian-name": "Adrian", "crew-adrian-role": "Principal",
+                "crew-presh-name": "Preshsenna", "crew-presh-role": "Teacher Head",
+                "crew-alya-name": "Alya", "crew-alya-role": "Teacher Senior",
+                "crew-izah-name": "Izah", "crew-izah-role": "Teacher Summer Camp",
+                "pkg-main-title": "OUR <span class='text-sky'>PACKAGES</span>",
+                "pkg-t1-title": "ENGLISH ONLY PACKAGES", "pkg-t2-title": "1 MONTH IMMERSIVE + TRIPS",
+                "th-duration": "Duration", "th-hours": "Hours / Day", "th-benefits": "Benefits included", "th-price": "Price (RM)", "th-tier": "Tier",
+                "dur-1w": "1 Week", "dur-2w": "2 Weeks", "dur-3w": "3 Weeks", "dur-4w": "4 Weeks",
+                "hr-4": "4 Hours IGE + 2 Hours ELA", "hr-6": "6 Hours Daily",
+                "ben-basic": "Classes, Materials, Registration Fee", "ben-trips": "Classes, Lunch, Selected Weekend Trips", "ben-full": "Premium Accomm, All Meals, All Trips, Airport VIP",
+                "tier-noacc": "1 Month Without Accommodation", "tier-full": "1 Month Full Package",
+                "gal-title": "CAMP <span class='text-sky'>MEMORIES</span>", "gal-status": "Diving in... Fetching from Drive",
+                "tour-title": "MALAYSIAN <span class='text-sky'>CITY TOUR</span>", "acc-title": "PREMIUM <span class='text-gold'>ACCOMMODATIONS</span>",
+                "footer-qr": "Register via WeChat", "footer": "© 2026 Premium Language Centre",
+                "modal-title": "SECURE YOUR SPOT", "modal-sub": "Fast Registration via Email",
+                "form-name": "Name (Agent or Parent)*", "form-country": "Country*", "form-kids": "Kids Number*", "form-pkg": "Choosing Package*", "form-contact": "WhatsApp / WeChat ID*", "form-btn": "Confirm Registration"
+            },
+            zh: {
+                "brand": "高级语言中心", "nav-apply": "立即申请", "hero-badge": "2026 冬夏令营",
+                "nav-crew": "团队", "nav-packages": "套餐", "nav-tour": "城市游", "nav-acc": "住宿", "nav-gallery": "画廊",
+                "hero-title": "掌握英语。<br><span class='text-gold'>探索马来西亚。</span>",
+                "hero-sub": "吉隆坡市中心的活力沉浸式旅程。",
+                "crew-title": "认识 <span class='text-royal'>团队</span>", "crew-sub": "高级语言中心的专家教育者",
+                "crew-adrian-name": "Adrian", "crew-adrian-role": "校长",
+                "crew-presh-name": "Preshsenna", "crew-presh-role": "教学主管",
+                "crew-alya-name": "Alya", "crew-alya-role": "资深教师",
+                "crew-izah-name": "Izah", "crew-izah-role": "夏令营教师",
+                "pkg-main-title": "我们的 <span class='text-sky'>套餐</span>",
+                "pkg-t1-title": "纯英语套餐", "pkg-t2-title": "1个月沉浸式 + 旅行",
+                "th-duration": "时长", "th-hours": "每日课时", "th-benefits": "包含福利", "th-price": "价格 (RM)", "th-tier": "套餐级别",
+                "dur-1w": "1周", "dur-2w": "2周", "dur-3w": "3周", "dur-4w": "4周",
+                "hr-4": "4小时 IGE + 2小时 ELA", "hr-6": "每日6小时",
+                "ben-basic": "课程, 教材, 注册费", "ben-trips": "课程, 午餐, 精选周末旅行", "ben-full": "高级住宿, 一日三餐, 所有旅行, 机场VIP接机",
+                "tier-noacc": "1个月不含住宿", "tier-full": "1个月全包套餐",
+                "gal-title": "营地 <span class='text-sky'>回忆</span>", "gal-status": "正在加载...",
+                "tour-title": "马来西亚 <span class='text-sky'>城市游</span>", "acc-title": "高级 <span class='text-gold'>住宿</span>",
+                "footer-qr": "微信扫码注册", "footer": "© 2026 高级语言中心 版权所有",
+                "modal-title": "锁定名额", "modal-sub": "通过电子邮件快速注册",
+                "form-name": "姓名（代理或家长）*", "form-country": "国家*", "form-kids": "儿童人数*", "form-pkg": "选择套餐*", "form-contact": "WhatsApp / 微信号*", "form-btn": "确认注册"
+            },
+            ar: {
+                "brand": "مركز بريميوم للغات", "nav-apply": "قدم الآن", "hero-badge": "شتاء وصيف 2026",
+                "nav-crew": "الطاقم", "nav-packages": "الباقات", "nav-tour": "جولة المدينة", "nav-acc": "الإقامة", "nav-gallery": "معرض",
+                "hero-title": "أتقن الإنجليزية.<br><span class='text-gold'>اكتشف ماليزيا.</span>",
+                "hero-sub": "رحلة حيوية غامرة في قلب كوالالمبور.",
+                "crew-title": "تعرف على <span class='text-royal'>الطاقم</span>", "crew-sub": "خبراء التعليم في مركز بريميوم للغات",
+                "crew-adrian-name": "أدريان", "crew-adrian-role": "مدير المركز",
+                "crew-presh-name": "بريشينا", "crew-presh-role": "رئيسة المعلمين",
+                "crew-alya-name": "عليا", "crew-alya-role": "معلمة أولى",
+                "crew-izah-name": "عزة", "crew-izah-role": "معلمة المخيم",
+                "pkg-main-title": "باقاتنا <span class='text-sky'>المتنوعة</span>",
+                "pkg-t1-title": "باقات الإنجليزية فقط", "pkg-t2-title": "شهر واحد مع رحلات",
+                "th-duration": "المدة", "th-hours": "ساعات / يوم", "th-benefits": "المزايا المشمولة", "th-price": "السعر (رنجت)", "th-tier": "الباقة",
+                "dur-1w": "أسبوع واحد", "dur-2w": "أسبوعين", "dur-3w": "3 أسابيع", "dur-4w": "4 أسابيع",
+                "hr-4": "4 ساعات IGE + ساعتان ELA", "hr-6": "6 ساعات يوميا",
+                "ben-basic": "فصول، مواد دراسية، رسوم التسجيل", "ben-trips": "فصول، غداء، رحلات نهاية أسبوع مختارة", "ben-full": "إقامة مميزة، جميع الوجبات، جميع الرحلات، استقبال VIP",
+                "tier-noacc": "شهر واحد بدون إقامة", "tier-full": "الباقة الكاملة لشهر واحد",
+                "gal-title": "ذكريات <span class='text-sky'>المخيم</span>", "gal-status": "جاري التحميل...",
+                "tour-title": "جولات <span class='text-sky'>المدينة</span>", "acc-title": "إقامات <span class='text-gold'>مميزة</span>",
+                "footer-qr": "سجل عبر وي شات", "footer": "© 2026 مركز بريميوم للغات",
+                "modal-title": "احجز مقعدك", "modal-sub": "تسجيل سريع عبر البريد",
+                "form-name": "الاسم (الوكيل أو الوالد)*", "form-country": "البلد*", "form-kids": "عدد الأطفال*", "form-pkg": "اختيار الباقة*", "form-contact": "رقم واتساب / وي شات*", "form-btn": "تأكيد التسجيل"
+            }
+        };
+
+        window.setLanguage = function(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            localStorage.setItem('lang', lang);
+        }
+
+        const savedLang = localStorage.getItem('lang') || 'en';
+        document.getElementById('lang-select').value = savedLang;
+        window.setLanguage(savedLang);
+
+        window.openModal = function(id) { 
+            document.getElementById(id).classList.remove('hidden'); 
+            document.getElementById(id).classList.add('flex'); 
+        }
+        window.closeModal = function(id) { 
+            document.getElementById(id).classList.add('hidden'); 
+            document.getElementById(id).classList.remove('flex'); 
+        }
+
+        window.handleRegistration = async function(e) {
+            e.preventDefault(); 
+            const form = e.target;
+            const data = new FormData(form);
+            
+            // Visual feedback while sending
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerText;
+            submitBtn.innerText = "SENDING...";
+            submitBtn.disabled = true;
+            
+            try {
+                // Send data securely to Formspree in the background
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    window.closeModal('regModal');
+                    window.customAlert("Registration Successful! 🎉\n\nYour details have been securely sent to Djamel24@premium.edu.my.");
+                    form.reset(); // Clear the form
+                } else {
+                    window.customAlert("Oops! There was an issue submitting the form. Please try again.");
+                }
+            } catch (error) {
+                window.customAlert("Oops! Network error. Please check your connection and try again.");
+            } finally {
+                // Restore button state
+                submitBtn.innerText = originalText;
+                submitBtn.disabled = false;
+            }
+        };
+
+        let dialogCallback = null;
+        window.showDialog = function({ type, msg, defaultVal = '', callback }) {
+            const overlay = document.getElementById('dialogOverlay');
+            const msgEl = document.getElementById('dialogMessage');
+            const inputEl = document.getElementById('dialogInput');
+            const cancelBtn = document.getElementById('dialogCancel');
+            const okBtn = document.getElementById('dialogOk');
+
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            msgEl.innerText = msg;
+            dialogCallback = callback;
+
+            if (type === 'alert') {
+                inputEl.classList.add('hidden');
+                cancelBtn.classList.add('hidden');
+                okBtn.onclick = () => { window.closeDialog(); if(callback) callback(true); };
+            } else if (type === 'confirm') {
+                inputEl.classList.add('hidden');
+                cancelBtn.classList.remove('hidden');
+                okBtn.onclick = () => { window.closeDialog(); if(callback) callback(true); };
+                cancelBtn.onclick = () => { window.closeDialog(); if(callback) callback(false); };
+            } else if (type === 'prompt') {
+                inputEl.classList.remove('hidden');
+                inputEl.value = defaultVal;
+                cancelBtn.classList.remove('hidden');
+                okBtn.onclick = () => { window.closeDialog(); if(callback) callback(inputEl.value); };
+                cancelBtn.onclick = () => { window.closeDialog(); if(callback) callback(null); };
+            }
+        }
+        window.closeDialog = function() {
+            document.getElementById('dialogOverlay').classList.remove('flex');
+            document.getElementById('dialogOverlay').classList.add('hidden');
+        }
+        window.customAlert = function(msg, cb) { window.showDialog({ type: 'alert', msg, callback: cb }); }
+        window.customConfirm = function(msg, cb) { window.showDialog({ type: 'confirm', msg, callback: cb }); }
+        window.customPrompt = function(msg, def, cb) { window.showDialog({ type: 'prompt', msg, defaultVal: def, callback: cb }); }
+
+        window.loadGallery = async function() {
+            const key = document.getElementById('apiKey').value.trim();
+            const folder = document.getElementById('folderId').value.trim();
+            const queryStr = `'${folder}' in parents and trashed = false`;
+            const fields = "files(id,name,mimeType,thumbnailLink)";
+            const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(queryStr)}&fields=${encodeURIComponent(fields)}&key=${key}`;
+            const galleryEl = document.getElementById('gallery-grid');
+            const statusEl = document.getElementById('status');
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (response.ok) {
+                    let driveFiles = data.files.filter(f => f.mimeType.startsWith('image/'));
+                    galleryEl.innerHTML = '';
+                    
+                    driveFiles.forEach(file => {
+                        const thumb = file.thumbnailLink ? file.thumbnailLink.replace(/=s\d+/, '=s600') : '';
+                        
+                        const existingData = window.savedDriveData.find(d => d.img === thumb);
+                        const isHidden = existingData ? existingData.hidden : false;
+                        const labelText = existingData ? existingData.label : 'Camp Memory';
+                        
+                        const card = document.createElement('div');
+                        card.className = 'polaroid';
+                        card.setAttribute('draggable', window.isAdmin ? 'true' : 'false');
+                        if(isHidden) card.style.display = 'none';
+                        
+                        card.innerHTML = `
+                            <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
+                            <div class="location-tag mb-2">
+                                <i class="fa-solid fa-camera"></i> <span contenteditable="${window.isAdmin}" class="editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()">${labelText}</span> <i class="fa-solid fa-chevron-right ml-2"></i>
+                            </div>
+                            <img src="${thumb}" class="w-full aspect-square object-cover border border-black mb-4 pointer-events-none" loading="lazy">
+                            <div class="social-bar">
+                                <span><i class="fa-regular fa-heart"></i> Like</span>
+                                <span><i class="fa-regular fa-comment"></i> Share</span>
+                            </div>
+                        `;
+                        galleryEl.appendChild(card);
+                    });
+                    
+                    statusEl.innerText = `Found ${driveFiles.length} camp memories!`;
+                    if (window.isAdmin) { window.initDragAndDrop(); } 
+                }
+            } catch (err) {
+                console.log('API loading deferred.');
+                statusEl.innerText = "Error loading from Drive. Showing Local Only.";
+            }
+        };
+        
+        window.addEventListener('DOMContentLoaded', () => { setTimeout(window.loadGallery, 500); });
+
+        // Admin Edit Logic
+        window.toggleAdmin = function() {
+            if(window.isAdmin) {
+                window.isAdmin = false;
+                document.body.classList.remove('admin-mode');
+                window.toggleEditable(false);
+                window.customAlert("Admin mode deactivated.");
+                return;
+            }
+            window.openModal('adminModal');
+        }
+
+        window.checkAdmin = function() {
+            const pwd = document.getElementById('adminPwd').value;
+            if (pwd === "admin123") {
+                window.isAdmin = true;
+                document.body.classList.add('admin-mode');
+                window.toggleEditable(true);
+                window.initDragAndDrop();
+                window.closeModal('adminModal');
+                document.getElementById('adminPwd').value = '';
+                window.customAlert("Admin Mode Active & Cloud Synced!\n\n- Drag images to reorder\n- Click 👁️ to hide an image\n- Click text labels to edit them\n- Use '+ Add Image' to add new items.");
+            } else {
+                window.customAlert("Incorrect Password.");
+            }
+        }
+
+        window.toggleEditable = function(state) {
+            document.querySelectorAll('.editable-text').forEach(el => {
+                el.setAttribute('contenteditable', state);
+            });
+            document.querySelectorAll('.polaroid').forEach(el => {
+                el.setAttribute('draggable', state ? 'true' : 'false');
+            });
+        }
+
+        window.hideImage = function(btnElement) {
+            const polaroid = btnElement.closest('.polaroid');
+            window.customConfirm("Hide this image from the page? (Will be backed up to cloud)", (res) => {
+                if(res) {
+                    polaroid.style.display = 'none';
+                    if(window.saveAdminState) window.saveAdminState();
+                }
+            });
+        }
+
+        window.addImage = function(containerId, defaultText) {
+            window.customPrompt("Enter Image URL (e.g., https://images.unsplash.com/photo-...):", "", (imgUrl) => {
+                if(!imgUrl) return;
+
+                window.customPrompt("Enter Location/Title label:", defaultText, (label) => {
+                    if(!label) label = defaultText;
+                    const container = document.getElementById(containerId);
+                    const newCard = document.createElement('div');
+                    newCard.className = 'polaroid';
+                    newCard.setAttribute('draggable', window.isAdmin ? 'true' : 'false');
+                    
+                    newCard.innerHTML = `
+                        <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
+                        <div class="location-tag mb-2">
+                            <i class="fa-solid fa-star"></i> <span contenteditable="${window.isAdmin}" class="editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()">${label}</span> <i class="fa-solid fa-chevron-right ml-2"></i>
+                        </div>
+                        <img src="${imgUrl}" class="w-full aspect-square object-cover border border-black mb-4 pointer-events-none" onerror="this.src='https://placehold.co/600x600?text=Invalid+Image'">
+                        <div class="social-bar">
+                            <span><i class="fa-regular fa-heart"></i> Like</span>
+                            <span><i class="fa-regular fa-comment"></i> Share</span>
+                        </div>
+                    `;
+                    
+                    container.appendChild(newCard);
+                    window.initDragAndDrop(); 
+                    if(window.saveAdminState) window.saveAdminState();
+                });
+            });
+        }
+
+        // HTML5 Drag and Drop logic
+        let draggedItem = null;
+
+        window.initDragAndDrop = function() {
+            const items = document.querySelectorAll('.polaroid');
+            const containers = document.querySelectorAll('.admin-sortable-grid');
+
+            items.forEach(item => {
+                item.removeEventListener('dragstart', handleDragStart);
+                item.removeEventListener('dragend', handleDragEnd);
+                
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+
+            containers.forEach(container => {
+                container.removeEventListener('dragover', handleDragOver);
+                container.removeEventListener('drop', handleDrop);
+
+                container.addEventListener('dragover', handleDragOver);
+                container.addEventListener('drop', handleDrop);
+            });
+        }
+
+        function handleDragStart(e) {
+            if(!window.isAdmin) { e.preventDefault(); return; }
+            window.isEditing = true;
+            draggedItem = this;
+            setTimeout(() => this.classList.add('dragging'), 0);
+        }
+
+        function handleDragEnd() {
+            this.classList.remove('dragging');
+            draggedItem = null;
+            window.isEditing = false;
+            if(window.saveAdminState) window.saveAdminState();
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault(); 
+            if(!draggedItem) return;
+            const container = this;
+            const afterElement = getDragAfterElement(container, e.clientY, e.clientX);
+            
+            if (afterElement == null) {
+                container.appendChild(draggedItem);
+            } else {
+                container.insertBefore(draggedItem, afterElement);
+            }
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+        }
+
+        function getDragAfterElement(container, y, x) {
+            const draggableElements = [...container.querySelectorAll('.polaroid:not(.dragging)')];
+
+            return draggableElements.reduce((closest, child) => {
+                const box = child.getBoundingClientRect();
+                const offsetY = y - box.top - box.height / 2;
+                const offsetX = x - box.left - box.width / 2;
+                const distance = Math.sqrt(offsetY*offsetY + offsetX*offsetX);
+                
+                if (offsetY < 0 && distance < closest.distance) {
+                    return { offset: distance, element: child, distance: distance };
+                } else {
+                    return closest;
+                }
+            }, { distance: Number.POSITIVE_INFINITY }).element;
+        }
+    </script>
+</body>
+</html>
