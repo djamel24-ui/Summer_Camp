@@ -601,11 +601,18 @@
             appId = typeof __app_id !== 'undefined' ? __app_id : 'summer-camp-a9430';
             
             const initAuth = async () => {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    // This handles anonymous login for external hosts like GitHub
-                    await signInAnonymously(auth);
+                try {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        // This handles anonymous login for external hosts like GitHub
+                        await signInAnonymously(auth);
+                    }
+                } catch (error) {
+                    console.error("Authentication failed:", error);
+                    setTimeout(() => {
+                        window.customAlert("Firebase Auth Error: " + error.message + "\n\nPlease ensure 'Anonymous' sign-in is ENABLED in your Firebase Authentication -> Sign-in Method settings.");
+                    }, 2000);
                 }
             };
             
@@ -668,7 +675,11 @@
         // Push Local Edits to Cloud
         window.saveAdminState = async function() {
             if (!currentUser) {
-                window.showToast("Cannot save: Not connected to Cloud");
+                if (window.location.protocol === 'file:') {
+                    window.customAlert("Cannot connect to Cloud Database while opening as a local file (file://). You must upload this to GitHub Pages or use a local web server (like Live Server) for the database to work!");
+                } else {
+                    window.showToast("Cannot save: Not connected to Cloud");
+                }
                 return;
             }
             
@@ -718,7 +729,7 @@
                 window.showToast("Changes Saved to Cloud ☁️");
             } catch (e) { 
                 console.error("Error saving state to cloud:", e); 
-                window.showToast("Save Failed! Check Firebase rules.");
+                window.customAlert("Database Write Error: " + e.message + "\n\nDid you enable Firestore Database in 'Test Mode'?");
             }
         };
 
