@@ -561,19 +561,6 @@
         window.savedDriveData = [];
         let auth, db, appId, currentUser;
 
-        // Visual Toasts
-        window.showToast = function(msg) {
-            const toast = document.createElement('div');
-            toast.className = 'fixed bottom-4 right-4 bg-navy text-gold px-4 py-2 border-2 border-black shadow-comic z-[9999] opacity-0 transition-opacity duration-300 font-bold text-xs uppercase';
-            toast.innerText = msg;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.classList.remove('opacity-0'), 10);
-            setTimeout(() => {
-                toast.classList.add('opacity-0');
-                setTimeout(() => toast.remove(), 300);
-            }, 2500);
-        }
-
         // Firebase Initialization & Realtime Sync
         try {
             let firebaseConfig;
@@ -625,46 +612,50 @@
                     // Listen to live Cloud Updates
                     onSnapshot(docRef, (docSnap) => {
                         // Prevent UI jumping while user is typing or dragging
-                        if (docSnap.exists() && !window.isEditing) {
-                            const state = docSnap.data();
-                            window.savedDriveData = state.driveData || [];
-                            
-                            // Rebuild Galleries
-                            if(state.tour && state.tour.length > 0) rebuildGrid('tour-grid', state.tour);
-                            if(state.acc && state.acc.length > 0) rebuildGrid('acc-grid', state.acc);
-                            
-                            // Apply global fields (Crew names, Hero text, editable images)
-                            if(state.globals) {
-                                document.querySelectorAll('[data-global-id]').forEach(el => {
-                                    const id = el.getAttribute('data-global-id');
-                                    if(state.globals[id]) {
-                                        if (el.tagName === 'IMG') {
-                                            el.src = state.globals[id];
-                                        } else {
-                                            el.innerHTML = state.globals[id];
+                        if (docSnap.exists()) {
+                            if (!window.isEditing) {
+                                const state = docSnap.data();
+                                window.savedDriveData = state.driveData || [];
+                                
+                                // Rebuild Galleries (Only rebuild if data exists!)
+                                if(state.tour !== undefined) rebuildGrid('tour-grid', state.tour);
+                                if(state.acc !== undefined) rebuildGrid('acc-grid', state.acc);
+                                
+                                // Apply global fields (Crew names, Hero text, editable images)
+                                if(state.globals) {
+                                    document.querySelectorAll('[data-global-id]').forEach(el => {
+                                        const id = el.getAttribute('data-global-id');
+                                        if(state.globals[id]) {
+                                            if (el.tagName === 'IMG') {
+                                                el.src = state.globals[id];
+                                            } else {
+                                                el.innerHTML = state.globals[id];
+                                            }
                                         }
-                                    }
-                                });
-                            }
+                                    });
+                                }
 
-                            // Re-apply memory to Drive Gallery 
-                            const driveGrid = document.getElementById('gallery-grid');
-                            if(driveGrid && driveGrid.children.length > 0) {
-                                document.querySelectorAll('#gallery-grid .polaroid').forEach(el => {
-                                    const imgEl = el.querySelector('img');
-                                    const textEl = el.querySelector('.editable-text');
-                                    if(!imgEl || !textEl) return;
-                                    
-                                    const existing = window.savedDriveData.find(d => d.img === imgEl.src);
-                                    if (existing) {
-                                        el.style.display = existing.hidden ? 'none' : 'block';
-                                        textEl.innerText = existing.label || textEl.innerText;
-                                    }
-                                });
+                                // Re-apply memory to Drive Gallery 
+                                const driveGrid = document.getElementById('gallery-grid');
+                                if(driveGrid && driveGrid.children.length > 0) {
+                                    document.querySelectorAll('#gallery-grid .polaroid').forEach(el => {
+                                        const imgEl = el.querySelector('img');
+                                        const textEl = el.querySelector('.editable-text');
+                                        if(!imgEl || !textEl) return;
+                                        
+                                        const existing = window.savedDriveData.find(d => d.img === imgEl.src);
+                                        if (existing) {
+                                            el.style.display = existing.hidden ? 'none' : 'block';
+                                            textEl.innerText = existing.label || textEl.innerText;
+                                        }
+                                    });
+                                }
                             }
+                        } else {
+                            console.log("No cloud data found. Using default layout.");
                         }
                     }, (error) => {
-                        console.error("Firestore onSnapshot error:", error);
+                        window.customAlert("❌ Cloud Sync Error:\n\n" + error.message + "\n\nCannot read from Database.");
                     });
                 }
             });
@@ -678,7 +669,7 @@
                 if (window.location.protocol === 'file:') {
                     window.customAlert("Cannot connect to Cloud Database while opening as a local file (file://). You must upload this to GitHub Pages or use a local web server (like Live Server) for the database to work!");
                 } else {
-                    window.showToast("Cannot save: Not connected to Cloud");
+                    window.customAlert("❌ Cannot save: Not connected to Cloud Authentication.");
                 }
                 return;
             }
@@ -726,10 +717,10 @@
             try {
                 const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'adminState', 'grids');
                 await setDoc(docRef, state);
-                window.showToast("Changes Saved to Cloud ☁️");
+                window.customAlert("✅ Success! Your changes have been securely saved to the cloud.\n\nYou can safely refresh the page now.");
             } catch (e) { 
                 console.error("Error saving state to cloud:", e); 
-                window.customAlert("Database Write Error: " + e.message + "\n\nDid you enable Firestore Database in 'Test Mode'?");
+                window.customAlert("❌ Database Write Error:\n\n" + e.message + "\n\nPlease ensure you have clicked 'Create Database' in Firestore and set it to 'Test Mode'.");
             }
         };
 
