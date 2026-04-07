@@ -168,10 +168,23 @@
         body.admin-mode [contenteditable="true"] {
             border-bottom: 1px dashed gray; background: rgba(255, 215, 0, 0.2); outline: none; cursor: text;
         }
+        body.admin-mode .editable-img {
+            cursor: pointer;
+            box-shadow: 0 0 0 4px #FFD700;
+            transition: all 0.2s;
+        }
+        body.admin-mode .editable-img:hover {
+            filter: brightness(0.7);
+            box-shadow: 0 0 0 4px #00A8E8;
+        }
         .hide-btn { display: none; }
+        
+        /* Persistent Admin Bar Styles */
+        #adminBar { display: none; }
+        body.admin-mode #adminBar { display: flex; }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased transition-all duration-300">
 
     <!-- Navigation -->
     <nav class="fixed w-full z-50 top-0 border-b-4 border-black bg-white">
@@ -205,10 +218,12 @@
             <div class="inline-block mb-4 px-4 py-1 bg-royal text-white border-2 border-black shadow-comic text-xs font-black uppercase" data-i18n="hero-badge">
                 Winter & Summer 2026
             </div>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl title-bubbly text-white mb-4 leading-none" data-i18n="hero-title">
+            <!-- Added editable-text and data-global-id here -->
+            <h1 data-global-id="hero-title" class="text-5xl md:text-7xl lg:text-8xl title-bubbly text-white mb-4 leading-none editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="hero-title">
                 MASTER ENGLISH.<br><span class="text-gold">DISCOVER MALAYSIA.</span>
             </h1>
-            <p class="text-royal font-black text-sm md:text-lg mb-8 uppercase tracking-widest bg-white/90 inline-block px-6 py-2 border-2 border-black shadow-comic" data-i18n="hero-sub">
+            <!-- Added editable-text and data-global-id here -->
+            <p data-global-id="hero-sub" class="text-royal font-black text-sm md:text-lg mb-8 uppercase tracking-widest bg-white/90 inline-block px-6 py-2 border-2 border-black shadow-comic editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="hero-sub">
                 A vibrant immersive journey in the heart of Kuala Lumpur.
             </p>
             <div class="mt-4">
@@ -227,25 +242,26 @@
                 <p class="font-bold text-gray-600 uppercase text-xs" data-i18n="crew-sub">The expert educators of Premium Language Centre</p>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Added editable-img, editable-text, and data-global-ids to all crew -->
                 <div class="comic-card p-6 text-center bg-white">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-royal mb-4 object-cover">
-                    <h3 class="font-black text-royal text-sm md:text-base" data-i18n="crew-adrian-name">Adrian</h3>
-                    <p class="text-[10px] font-bold text-gray-500 uppercase" data-i18n="crew-adrian-role">Principal</p>
+                    <img data-global-id="crew-img-1" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-royal mb-4 object-cover editable-img" onclick="window.editImageSrc(this)">
+                    <h3 data-global-id="crew-name-1" class="font-black text-royal text-sm md:text-base editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="crew-adrian-name">Adrian</h3>
+                    <p data-global-id="crew-role-1" class="text-[10px] font-bold text-gray-500 uppercase editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="crew-adrian-role">Principal</p>
                 </div>
                 <div class="comic-card p-6 text-center bg-white">
-                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-sky mb-4 object-cover">
-                    <h3 class="font-black text-royal text-sm md:text-base" data-i18n="crew-presh-name">Preshsenna</h3>
-                    <p class="text-[10px] font-bold text-gray-500 uppercase" data-i18n="crew-presh-role">Teacher Head</p>
+                    <img data-global-id="crew-img-2" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-sky mb-4 object-cover editable-img" onclick="window.editImageSrc(this)">
+                    <h3 data-global-id="crew-name-2" class="font-black text-royal text-sm md:text-base editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="crew-presh-name">Preshsenna</h3>
+                    <p data-global-id="crew-role-2" class="text-[10px] font-bold text-gray-500 uppercase editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="crew-presh-role">Teacher Head</p>
                 </div>
                 <div class="comic-card p-6 text-center bg-white">
-                    <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-gold mb-4 object-cover">
-                    <h3 class="font-black text-royal text-sm md:text-base" data-i18n="crew-alya-name">Alya</h3>
-                    <p class="text-[10px] font-bold text-gray-500 uppercase" data-i18n="crew-alya-role">Teacher Senior</p>
+                    <img data-global-id="crew-img-3" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-gold mb-4 object-cover editable-img" onclick="window.editImageSrc(this)">
+                    <h3 data-global-id="crew-name-3" class="font-black text-royal text-sm md:text-base editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="crew-alya-name">Alya</h3>
+                    <p data-global-id="crew-role-3" class="text-[10px] font-bold text-gray-500 uppercase editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="crew-alya-role">Teacher Senior</p>
                 </div>
                 <div class="comic-card p-6 text-center bg-white">
-                    <img src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-teal mb-4 object-cover">
-                    <h3 class="font-black text-royal text-sm md:text-base" data-i18n="crew-izah-name">Izah</h3>
-                    <p class="text-[10px] font-bold text-gray-500 uppercase" data-i18n="crew-izah-role">Teacher Summer Camp</p>
+                    <img data-global-id="crew-img-4" src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-teal mb-4 object-cover editable-img" onclick="window.editImageSrc(this)">
+                    <h3 data-global-id="crew-name-4" class="font-black text-royal text-sm md:text-base editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="crew-izah-name">Izah</h3>
+                    <p data-global-id="crew-role-4" class="text-[10px] font-bold text-gray-500 uppercase editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="crew-izah-role">Teacher Summer Camp</p>
                 </div>
             </div>
         </section>
@@ -451,8 +467,8 @@
             <h2 class="text-2xl md:text-3xl font-display text-royal mb-2" data-i18n="modal-title">SECURE YOUR SPOT</h2>
             <p class="text-xs font-bold text-gray-600 uppercase mb-6" data-i18n="modal-sub">Fast Registration via Email</p>
             
-            <!-- FORMSPREE INTEGRATED FORM (onsubmit Added) -->
-            <form action="https://formspree.io/f/maqlvoge" method="POST" onsubmit="window.handleRegistration(event)" class="space-y-4 font-bold text-xs uppercase text-black">
+            <!-- NEW FORMSPREE INTEGRATED FORM -->
+            <form id="registrationForm" onsubmit="window.handleRegistration(event)" action="https://formspree.io/f/maqlvoge" method="POST" class="space-y-4 font-bold text-xs uppercase text-black">
                 <div>
                     <label class="block mb-1" data-i18n="form-name">Name (Agent or Parent)*</label>
                     <input type="text" name="Parent Name" id="formName" required class="w-full border-2 border-black p-3 focus:bg-sky/10 outline-none rounded-none">
@@ -525,6 +541,18 @@
         </div>
     </div>
 
+    <!-- Floating Persistent Admin Bar -->
+    <div id="adminBar" class="fixed bottom-0 left-0 w-full bg-navy text-white z-[9999] border-t-4 border-black p-4 flex-col sm:flex-row justify-between items-center shadow-[0_-8px_0_0_rgba(0,0,0,0.2)]">
+        <div class="flex items-center gap-4 mb-3 sm:mb-0">
+            <span class="text-gold font-display text-lg tracking-widest"><i class="fa-solid fa-lock-open mr-2"></i> ADMIN</span>
+            <span class="hidden md:inline text-xs font-bold text-gray-300">Auto-save is ON. Click 'Save' to manually force a cloud sync.</span>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="window.saveAdminState()" class="btn-pop bg-gold text-black px-6 py-2 text-xs font-black uppercase"><i class="fa-solid fa-cloud-arrow-up mr-2"></i> Save to Cloud</button>
+            <button onclick="window.toggleAdmin()" class="btn-pop bg-red-500 text-white px-6 py-2 text-xs font-black uppercase"><i class="fa-solid fa-right-from-bracket mr-2"></i> Exit</button>
+        </div>
+    </div>
+
     <!-- Consolidated Unified Application Logic (Firebase + Local) -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -579,9 +607,24 @@
                             const state = docSnap.data();
                             window.savedDriveData = state.driveData || [];
                             
+                            // Rebuild Galleries
                             if(state.tour && state.tour.length > 0) rebuildGrid('tour-grid', state.tour);
                             if(state.acc && state.acc.length > 0) rebuildGrid('acc-grid', state.acc);
                             
+                            // Apply global fields (Crew names, Hero text, editable images)
+                            if(state.globals) {
+                                document.querySelectorAll('[data-global-id]').forEach(el => {
+                                    const id = el.getAttribute('data-global-id');
+                                    if(state.globals[id]) {
+                                        if (el.tagName === 'IMG') {
+                                            el.src = state.globals[id];
+                                        } else {
+                                            el.innerHTML = state.globals[id];
+                                        }
+                                    }
+                                });
+                            }
+
                             // Re-apply memory to Drive Gallery 
                             const driveGrid = document.getElementById('gallery-grid');
                             if(driveGrid && driveGrid.children.length > 0) {
@@ -609,9 +652,17 @@
 
         // Push Local Edits to Cloud
         window.saveAdminState = async function() {
-            if (!currentUser) return;
+            if (!currentUser) {
+                window.showToast("Cannot save: Not connected to Cloud");
+                return;
+            }
             
-            const state = { tour: [], acc: [], driveData: [] };
+            // Force any currently active typing text box to finish its edit before saving
+            if (document.activeElement && document.activeElement.getAttribute('contenteditable') === 'true') {
+                 document.activeElement.blur();
+            }
+            
+            const state = { tour: [], acc: [], driveData: [], globals: {} };
             
             document.querySelectorAll('#tour-grid .polaroid').forEach(el => {
                 state.tour.push({
@@ -635,6 +686,15 @@
                     img: el.querySelector('img').src || "",
                     hidden: el.style.display === 'none'
                 });
+            });
+
+            // Grab all global editable elements (Crew images, Hero Text, etc)
+            document.querySelectorAll('[data-global-id]').forEach(el => {
+                if(el.tagName === 'IMG') {
+                    state.globals[el.getAttribute('data-global-id')] = el.src || "";
+                } else {
+                    state.globals[el.getAttribute('data-global-id')] = el.innerHTML || "";
+                }
             });
 
             try {
@@ -780,14 +840,12 @@
             const form = e.target;
             const data = new FormData(form);
             
-            // Visual feedback while sending
             const submitBtn = form.querySelector('button[type="submit"]');
             const originalText = submitBtn.innerText;
             submitBtn.innerText = "SENDING...";
             submitBtn.disabled = true;
             
             try {
-                // Send data securely to Formspree in the background
                 const response = await fetch(form.action, {
                     method: form.method,
                     body: data,
@@ -799,14 +857,13 @@
                 if (response.ok) {
                     window.closeModal('regModal');
                     window.customAlert("Registration Successful! 🎉\n\nYour details have been securely sent to Djamel24@premium.edu.my.");
-                    form.reset(); // Clear the form
+                    form.reset(); 
                 } else {
                     window.customAlert("Oops! There was an issue submitting the form. Please try again.");
                 }
             } catch (error) {
                 window.customAlert("Oops! Network error. Please check your connection and try again.");
             } finally {
-                // Restore button state
                 submitBtn.innerText = originalText;
                 submitBtn.disabled = false;
             }
@@ -908,6 +965,7 @@
             if(window.isAdmin) {
                 window.isAdmin = false;
                 document.body.classList.remove('admin-mode');
+                document.body.style.paddingBottom = '0px'; // Remove admin bar space
                 window.toggleEditable(false);
                 window.customAlert("Admin mode deactivated.");
                 return;
@@ -920,14 +978,26 @@
             if (pwd === "admin123") {
                 window.isAdmin = true;
                 document.body.classList.add('admin-mode');
+                document.body.style.paddingBottom = '80px'; // Make room for admin bar so it doesn't cover the footer
                 window.toggleEditable(true);
                 window.initDragAndDrop();
                 window.closeModal('adminModal');
                 document.getElementById('adminPwd').value = '';
-                window.customAlert("Admin Mode Active & Cloud Synced!\n\n- Drag images to reorder\n- Click 👁️ to hide an image\n- Click text labels to edit them\n- Use '+ Add Image' to add new items.");
+                window.customAlert("Admin Mode Active & Cloud Synced!\n\n- Click 'Save to Cloud' in the new bottom bar to sync your changes instantly.\n- Click any image/text to edit.\n- Drag Polaroids to reorder.\n- Click 👁️ to hide an image.");
             } else {
                 window.customAlert("Incorrect Password.");
             }
+        }
+
+        // Global Image Edit Prompt
+        window.editImageSrc = function(imgEl) {
+            if(!window.isAdmin) return;
+            window.customPrompt("Enter new Image URL:", imgEl.src, (newUrl) => {
+                if(newUrl && newUrl.trim() !== "") {
+                    imgEl.src = newUrl;
+                    if(window.saveAdminState) window.saveAdminState();
+                }
+            });
         }
 
         window.toggleEditable = function(state) {
