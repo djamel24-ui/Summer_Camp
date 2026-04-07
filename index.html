@@ -218,11 +218,9 @@
             <div class="inline-block mb-4 px-4 py-1 bg-royal text-white border-2 border-black shadow-comic text-xs font-black uppercase" data-i18n="hero-badge">
                 Winter & Summer 2026
             </div>
-            <!-- Added editable-text and data-global-id here -->
             <h1 data-global-id="hero-title" class="text-5xl md:text-7xl lg:text-8xl title-bubbly text-white mb-4 leading-none editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="hero-title">
                 MASTER ENGLISH.<br><span class="text-gold">DISCOVER MALAYSIA.</span>
             </h1>
-            <!-- Added editable-text and data-global-id here -->
             <p data-global-id="hero-sub" class="text-royal font-black text-sm md:text-lg mb-8 uppercase tracking-widest bg-white/90 inline-block px-6 py-2 border-2 border-black shadow-comic editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="hero-sub">
                 A vibrant immersive journey in the heart of Kuala Lumpur.
             </p>
@@ -242,7 +240,6 @@
                 <p class="font-bold text-gray-600 uppercase text-xs" data-i18n="crew-sub">The expert educators of Premium Language Centre</p>
             </div>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <!-- Added editable-img, editable-text, and data-global-ids to all crew -->
                 <div class="comic-card p-6 text-center bg-white">
                     <img data-global-id="crew-img-1" src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=300" class="w-20 h-20 md:w-28 md:h-28 rounded-full mx-auto border-4 border-royal mb-4 object-cover editable-img" onclick="window.editImageSrc(this)">
                     <h3 data-global-id="crew-name-1" class="font-black text-royal text-sm md:text-base editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false; if(window.saveAdminState) window.saveAdminState()" data-i18n="crew-adrian-name">Adrian</h3>
@@ -510,7 +507,6 @@
                     <button type="submit" class="btn-pop w-full py-4 text-sm md:text-base font-black uppercase rounded-none" data-i18n="form-btn">Confirm Registration</button>
                 </div>
             </form>
-            <!-- END FORMSPREE INTEGRATED FORM -->
             
             <div class="mt-6 text-center">
                 <p class="text-[10px] font-black uppercase text-gray-500 mb-2">Or Scan WeChat QR</p>
@@ -580,16 +576,35 @@
 
         // Firebase Initialization & Realtime Sync
         try {
-            const firebaseConfig = JSON.parse(__firebase_config);
+            let firebaseConfig;
+            
+            // Check if we are running inside the Canvas preview environment
+            if (typeof __firebase_config !== 'undefined') {
+                firebaseConfig = JSON.parse(__firebase_config);
+            } else {
+                // EXTERNAL HOSTING FALLBACK (e.g., GitHub Pages)
+                firebaseConfig = {
+                    apiKey: "AIzaSyDvjYZOIkW2pQ3RNhi2vLauwpvo67uSU48",
+                    authDomain: "summer-camp-a9430.firebaseapp.com",
+                    projectId: "summer-camp-a9430",
+                    storageBucket: "summer-camp-a9430.firebasestorage.app",
+                    messagingSenderId: "373463290774",
+                    appId: "1:373463290774:web:29d63ff567d7c63cc8c3b7",
+                    measurementId: "G-03TSRCR2E7"
+                };
+                console.log("Running externally: Using custom Firebase config for summer-camp-a9430!");
+            }
+
             const app = initializeApp(firebaseConfig);
             auth = getAuth(app);
             db = getFirestore(app);
-            appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+            appId = typeof __app_id !== 'undefined' ? __app_id : 'summer-camp-a9430';
             
             const initAuth = async () => {
                 if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
                     await signInWithCustomToken(auth, __initial_auth_token);
                 } else {
+                    // This handles anonymous login for external hosts like GitHub
                     await signInAnonymously(auth);
                 }
             };
@@ -703,7 +718,7 @@
                 window.showToast("Changes Saved to Cloud ☁️");
             } catch (e) { 
                 console.error("Error saving state to cloud:", e); 
-                window.showToast("Save Failed!");
+                window.showToast("Save Failed! Check Firebase rules.");
             }
         };
 
