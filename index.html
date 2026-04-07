@@ -225,7 +225,7 @@
                 A vibrant immersive journey in the heart of Kuala Lumpur.
             </p>
             <div class="mt-4">
-                <button onclick="window.openModal('regModal')" class="btn-pop px-12 py-4 text-xl font-black rounded-none uppercase" data-i18n="nav-apply">Start Your Journey</button>
+                <button onclick="window.openModal('regModal')" class="btn-pop px-12 py-4 text-xl font-black rounded-none uppercase" data-i18n="nav-apply-btn">Start Your Journey</button>
             </div>
         </div>
     </header>
@@ -620,7 +620,6 @@
             window.rebuildGrid(containerId, defaults[containerId]);
         }
 
-        // MOVED TO GLOBAL SCOPE SO IT'S DEFINED WHEN addImage CALLS IT
         window.createPolaroidElement = function(containerId, label, imgUrl, isHidden = false) {
             const div = document.createElement('div');
             div.className = 'polaroid';
@@ -644,8 +643,150 @@
         window.addEventListener('DOMContentLoaded', loadLayout);
     </script>
 
-    <!-- UI MANAGEMENT SCRIPT -->
+    <!-- UI MANAGEMENT & TRANSLATION SCRIPT -->
     <script>
+        const translations = {
+            en: {
+                "brand": "PREMIUM LANGUAGE CENTRE",
+                "nav-crew": "Crew", "nav-packages": "Packages", "nav-tour": "City Tour", "nav-gallery": "Gallery", "nav-acc": "Accommodations", "nav-apply": "Apply Now",
+                "hero-badge": "Winter & Summer 2026",
+                "hero-title": "MASTER ENGLISH.<br><span class='text-gold'>DISCOVER MALAYSIA.</span>",
+                "hero-sub": "A vibrant immersive journey in the heart of Kuala Lumpur.",
+                "nav-apply-btn": "Start Your Journey",
+                "crew-title": "MEET THE <span class='text-royal'>CREW</span>",
+                "crew-sub": "The expert educators of Premium Language Centre",
+                "crew-adrian-name": "Adrian", "crew-adrian-role": "Principal",
+                "crew-presh-name": "Preshsenna", "crew-presh-role": "Teacher Head",
+                "crew-alya-name": "Alya", "crew-alya-role": "Teacher Senior",
+                "crew-izah-name": "Izah", "crew-izah-role": "Teacher Summer Camp",
+                "pkg-main-title": "OUR <span class='text-sky'>PACKAGES</span>",
+                "pkg-t1-title": "ENGLISH ONLY PACKAGES",
+                "th-duration": "Duration", "th-hours": "Hours / Day", "th-benefits": "Benefits included", "th-price": "Price (RM)",
+                "dur-1w": "1 Week", "dur-2w": "2 Weeks", "dur-3w": "3 Weeks", "dur-4w": "4 Weeks",
+                "hr-4": "4 Hours IGE + 2 Hours ELA",
+                "ben-basic": "Classes, Materials, Registration Fee",
+                "pkg-t2-title": "1 MONTH IMMERSIVE + TRIPS",
+                "th-tier": "Tier",
+                "tier-noacc": "1 Month Without Accommodation",
+                "hr-6": "6 Hours Daily",
+                "ben-trips": "Classes, Lunch, Selected Weekend Trips",
+                "tier-full": "1 Month Full Package",
+                "ben-full": "Premium Accomm, All Meals, All Trips, Airport VIP",
+                "gal-title": "CAMP <span class='text-sky'>MEMORIES</span>",
+                "gal-status": "Diving in... Fetching from Drive",
+                "tour-title": "MALAYSIAN <span class='text-sky'>CITY TOUR</span>",
+                "acc-title": "PREMIUM <span class='text-gold'>ACCOMMODATIONS</span>",
+                "footer-qr": "Register via WeChat",
+                "footer": "© 2026 Premium Language Centre",
+                "modal-title": "SECURE YOUR SPOT",
+                "modal-sub": "Fast Registration via Email",
+                "form-name": "Name (Agent or Parent)*",
+                "form-country": "Country*",
+                "form-kids": "Kids Number*",
+                "form-pkg": "Choosing Package*",
+                "form-contact": "WhatsApp / WeChat ID*",
+                "form-btn": "Confirm Registration"
+            },
+            zh: {
+                "brand": "高级语言中心",
+                "nav-crew": "团队", "nav-packages": "套餐", "nav-tour": "城市游", "nav-gallery": "画廊", "nav-acc": "住宿", "nav-apply": "立即申请",
+                "hero-badge": "2026 冬夏令营",
+                "hero-title": "掌握英语。<br><span class='text-gold'>探索马来西亚。</span>",
+                "hero-sub": "吉隆坡市中心的活力沉浸式旅程。",
+                "nav-apply-btn": "开启旅程",
+                "crew-title": "认识 <span class='text-royal'>团队</span>",
+                "crew-sub": "高级语言中心的专家教育者",
+                "crew-adrian-name": "Adrian", "crew-adrian-role": "校长",
+                "crew-presh-name": "Preshsenna", "crew-presh-role": "教学主管",
+                "crew-alya-name": "Alya", "crew-alya-role": "资深教师",
+                "crew-izah-name": "Izah", "crew-izah-role": "夏令营教师",
+                "pkg-main-title": "我们的 <span class='text-sky'>套餐</span>",
+                "pkg-t1-title": "纯英语套餐",
+                "th-duration": "时长", "th-hours": "每日课时", "th-benefits": "包含福利", "th-price": "价格 (RM)",
+                "dur-1w": "1周", "dur-2w": "2周", "dur-3w": "3周", "dur-4w": "4周",
+                "hr-4": "4小时 IGE + 2小时 ELA",
+                "ben-basic": "课程, 教材, 注册费",
+                "pkg-t2-title": "1个月沉浸式 + 旅行",
+                "th-tier": "套餐级别",
+                "tier-noacc": "1个月不含住宿",
+                "hr-6": "每日6小时",
+                "ben-trips": "课程, 午餐, 精选周末旅行",
+                "tier-full": "1个月全包套餐",
+                "ben-full": "高级住宿, 一日三餐, 所有旅行, 机场VIP接机",
+                "gal-title": "营地 <span class='text-sky'>回忆</span>",
+                "gal-status": "正在加载...",
+                "tour-title": "马来西亚 <span class='text-sky'>城市游</span>",
+                "acc-title": "高级 <span class='text-gold'>住宿</span>",
+                "footer-qr": "微信扫码注册",
+                "footer": "© 2026 高级语言中心 版权所有",
+                "modal-title": "锁定名额",
+                "modal-sub": "通过电子邮件快速注册",
+                "form-name": "姓名（代理或家长）*",
+                "form-country": "国家*",
+                "form-kids": "儿童人数*",
+                "form-pkg": "选择套餐*",
+                "form-contact": "WhatsApp / 微信号*",
+                "form-btn": "确认注册"
+            },
+            ar: {
+                "brand": "مركز بريميوم للغات",
+                "nav-crew": "الطاقم", "nav-packages": "الباقات", "nav-tour": "جولة المدينة", "nav-gallery": "معرض", "nav-acc": "الإقامة", "nav-apply": "قدم الآن",
+                "hero-badge": "شتاء وصيف 2026",
+                "hero-title": "أتقن الإنجليزية.<br><span class='text-gold'>اكتشف ماليزيا.</span>",
+                "hero-sub": "رحلة حيوية غامرة في قلب كوالالمبور.",
+                "nav-apply-btn": "ابدأ رحلتك",
+                "crew-title": "تعرف على <span class='text-royal'>الطاقم</span>",
+                "crew-sub": "خبراء التعليم في مركز بريميوم للغات",
+                "crew-adrian-name": "أدريان", "crew-adrian-role": "مدير المركز",
+                "crew-presh-name": "بريشينا", "crew-presh-role": "رئيسة المعلمين",
+                "crew-alya-name": "عليا", "crew-alya-role": "معلمة أولى",
+                "crew-izah-name": "عزة", "crew-izah-role": "معلمة المخيم",
+                "pkg-main-title": "باقاتنا <span class='text-sky'>المتنوعة</span>",
+                "pkg-t1-title": "باقات الإنجليزية فقط",
+                "th-duration": "المدة", "th-hours": "ساعات / يوم", "th-benefits": "المزايا المشمولة", "th-price": "السعر (رنجت)",
+                "dur-1w": "أسبوع واحد", "dur-2w": "أسبوعين", "dur-3w": "3 أسابيع", "dur-4w": "4 أسابيع",
+                "hr-4": "4 ساعات IGE + ساعتان ELA",
+                "ben-basic": "فصول، مواد دراسية، رسوم التسجيل",
+                "pkg-t2-title": "شهر واحد مع رحلات",
+                "th-tier": "الباقة",
+                "tier-noacc": "شهر واحد بدون إقامة",
+                "hr-6": "6 ساعات يوميا",
+                "ben-trips": "فصول، غداء، رحلات نهاية أسبوع مختارة",
+                "tier-full": "الباقة الكاملة لشهر واحد",
+                "ben-full": "إقامة مميزة، جميع الوجبات، جميع الرحلات، استقبال VIP",
+                "gal-title": "ذكريات <span class='text-sky'>المخيم</span>",
+                "gal-status": "جاري التحميل...",
+                "tour-title": "جولات <span class='text-sky'>المدينة</span>",
+                "acc-title": "إقامات <span class='text-gold'>مميزة</span>",
+                "footer-qr": "سجل عبر وي شات",
+                "footer": "© 2026 مركز بريميوم للغات",
+                "modal-title": "احجز مقعدك",
+                "modal-sub": "تسجيل سريع عبر البريد",
+                "form-name": "الاسم (الوكيل أو الوالد)*",
+                "form-country": "البلد*",
+                "form-kids": "عدد الأطفال*",
+                "form-pkg": "اختيار الباقة*",
+                "form-contact": "رقم واتساب / وي شات*",
+                "form-btn": "تأكيد التسجيل"
+            }
+        };
+
+        window.setLanguage = function(lang) {
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+            localStorage.setItem('lang', lang);
+        }
+
+        const savedLang = localStorage.getItem('lang') || 'en';
+        document.getElementById('lang-select').value = savedLang;
+        window.setLanguage(savedLang);
+
         window.showToast = function(msg) {
             const toast = document.createElement('div');
             toast.className = 'fixed bottom-4 right-4 bg-navy text-gold px-4 py-2 border-2 border-black shadow-comic z-[9999] opacity-0 transition-opacity duration-300 font-bold text-xs uppercase';
@@ -746,7 +887,6 @@
                 if(!imgUrl) return;
                 window.customPrompt("Title:", defaultText, (label) => {
                     const container = document.getElementById(containerId);
-                    // createPolaroidElement is now attached to window so addImage can find it
                     const newCard = window.createPolaroidElement(containerId, label || defaultText, imgUrl, false);
                     container.appendChild(newCard);
                     window.initDragAndDrop();
@@ -810,13 +950,6 @@
             } catch (err) { document.getElementById('status').innerText = "Gallery Offline"; }
         };
         window.addEventListener('DOMContentLoaded', () => setTimeout(window.loadGallery, 1500));
-
-        window.setLanguage = function(lang) {
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            const brand = document.querySelector('[data-i18n="brand"]');
-            if(brand) brand.innerText = lang === 'ar' ? "مركز بريميوم للغات" : (lang === 'zh' ? "高级语言中心" : "PREMIUM LANGUAGE CENTRE");
-        }
     </script>
 </body>
 </html>
