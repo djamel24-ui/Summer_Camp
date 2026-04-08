@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Premium Language Centre - Summer Camp Malaysia 2026</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -34,7 +33,6 @@
         }
     </script>
     
-    <!-- Google Fonts & FontAwesome -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Bungee&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -186,7 +184,6 @@
 </head>
 <body class="antialiased transition-all duration-300">
 
-    <!-- Navigation -->
     <nav class="fixed w-full z-50 top-0 border-b-4 border-black bg-white">
         <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
             <div class="font-display text-xl md:text-2xl text-royal truncate" data-i18n="brand">PREMIUM LANGUAGE CENTRE</div>
@@ -207,11 +204,31 @@
                 </div>
             </div>
             
-            <button onclick="window.openModal('regModal')" class="btn-pop px-4 py-1.5 rounded-sm font-black text-[10px] md:text-xs uppercase tracking-tighter" data-i18n="nav-apply">Apply Now</button>
+            <div class="flex items-center gap-3">
+                <button onclick="window.openModal('regModal')" class="btn-pop px-4 py-1.5 rounded-sm font-black text-[10px] md:text-xs uppercase tracking-tighter" data-i18n="nav-apply">Apply Now</button>
+                
+                <button onclick="window.toggleMobileMenu()" class="lg:hidden text-2xl text-black ml-2 cursor-pointer">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <div id="mobileMenu" class="hidden lg:hidden border-t-4 border-black bg-white flex-col font-black uppercase text-xs">
+            <a href="#crew" class="p-4 border-b-2 border-gray-200" onclick="window.toggleMobileMenu()" data-i18n="nav-crew">Crew</a>
+            <a href="#packages" class="p-4 border-b-2 border-gray-200" onclick="window.toggleMobileMenu()" data-i18n="nav-packages">Packages</a>
+            <a href="#city-tour" class="p-4 border-b-2 border-gray-200" onclick="window.toggleMobileMenu()" data-i18n="nav-tour">City Tour</a>
+            <a href="#gallery-section" class="p-4 border-b-2 border-gray-200" onclick="window.toggleMobileMenu()" data-i18n="nav-gallery">Gallery</a>
+            <a href="#accommodations" class="p-4 border-b-2 border-gray-200" onclick="window.toggleMobileMenu()" data-i18n="nav-acc">Accommodations</a>
+            <div class="p-4 bg-lightGrey">
+                <select class="bg-transparent font-black outline-none cursor-pointer text-black w-full" onchange="window.setLanguage(this.value); window.toggleMobileMenu()">
+                    <option value="en">English</option>
+                    <option value="ar">Arabic</option>
+                    <option value="zh">Chinese</option>
+                </select>
+            </div>
         </div>
     </nav>
 
-    <!-- Hero Header (Illustrated) -->
     <header class="kl-illustration min-h-screen flex items-center justify-center pt-20 pb-32 text-center px-6 relative">
         <div class="skyline-vector"></div>
         <div class="relative z-10 max-w-5xl">
@@ -230,10 +247,8 @@
         </div>
     </header>
 
-    <!-- Content Sections (Feed Structure) -->
     <main class="max-w-5xl mx-auto px-4 -mt-20 relative z-20 space-y-16 pb-24">
         
-        <!-- Crew Section -->
         <section id="crew" class="space-y-8 comic-card p-8 bg-white/50 backdrop-blur-sm">
             <div class="text-center">
                 <h2 class="text-4xl md:text-5xl font-display text-black mb-2" data-i18n="crew-title">MEET THE <span class="text-royal">CREW</span></h2>
@@ -263,7 +278,6 @@
             </div>
         </section>
 
-        <!-- Packages Section -->
         <section id="packages" class="space-y-8">
             <div class="text-center">
                 <h2 class="text-4xl md:text-5xl font-display text-black mb-2" data-i18n="pkg-main-title">OUR <span class="text-sky">PACKAGES</span></h2>
@@ -342,7 +356,6 @@
             </div>
         </section>
 
-        <!-- Google Drive RESTORED GALLERY -->
         <section id="gallery-section" class="py-8">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-3xl md:text-4xl font-display text-black" data-i18n="gal-title">CAMP <span class="text-sky">MEMORIES</span></h2>
@@ -359,11 +372,9 @@
             </div>
 
             <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 admin-sortable-grid">
-                <!-- Driven by API -->
-            </div>
+                </div>
         </section>
 
-        <!-- Malaysian City Tour Gallery -->
         <section id="city-tour" class="py-8">
             <div class="flex justify-between items-center mb-10">
                 <h2 class="text-3xl md:text-4xl font-display text-black" data-i18n="tour-title">MALAYSIAN <span class="text-sky">CITY TOUR</span></h2>
@@ -371,11 +382,9 @@
             </div>
             
             <div id="tour-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 admin-sortable-grid">
-                <!-- Will populate from Supabase/Defaults -->
-            </div>
+                </div>
         </section>
 
-        <!-- Premium Accommodations -->
         <section id="accommodations" class="py-8">
             <div class="flex justify-between items-center mb-10">
                 <h2 class="text-3xl md:text-4xl font-display text-black" data-i18n="acc-title">PREMIUM <span class="text-gold">ACCOMMODATIONS</span></h2>
@@ -383,13 +392,11 @@
             </div>
             
             <div id="acc-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 admin-sortable-grid">
-                <!-- Will populate from Supabase/Defaults -->
-            </div>
+                </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
     <footer class="bg-white border-t-4 border-black py-12 text-center relative">
         <div class="max-w-md mx-auto flex flex-col items-center">
             <h3 class="font-display text-royal text-xl mb-4" data-i18n="footer-qr">Register via WeChat</h3>
@@ -399,14 +406,12 @@
             <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-2" data-i18n="footer">© 2026 Premium Language Centre</p>
             <p class="text-[10px] text-gray-400 font-bold">Email: Djamel24@premium.edu.my</p>
             
-            <!-- Admin Lock Icon -->
             <div class="mt-8 text-gray-300 hover:text-royal transition cursor-pointer" onclick="window.toggleAdmin()">
                 <i class="fa-solid fa-lock text-2xl" title="Admin Access"></i>
             </div>
         </div>
     </footer>
 
-    <!-- Registration Modal -->
     <div id="regModal" class="hidden fixed inset-0 z-[100] items-center justify-center bg-royal/80 backdrop-blur-sm p-4">
         <div class="comic-card w-full max-w-lg p-6 md:p-8 relative max-h-[90vh] overflow-y-auto">
             <button onclick="window.closeModal('regModal')" class="absolute top-4 right-4 font-black text-2xl hover:text-royal cursor-pointer">×</button>
@@ -464,7 +469,6 @@
         </div>
     </div>
 
-    <!-- Admin Login Modal -->
     <div id="adminModal" class="hidden fixed inset-0 z-[110] items-center justify-center bg-black/80 backdrop-blur-sm p-4">
         <div class="comic-card w-full max-w-sm p-6 relative bg-white text-center">
             <button onclick="window.closeModal('adminModal')" class="absolute top-2 right-4 font-black text-2xl hover:text-royal">×</button>
@@ -474,7 +478,6 @@
         </div>
     </div>
 
-    <!-- Custom Dialog Overlay -->
     <div id="dialogOverlay" class="hidden fixed inset-0 z-[200] bg-black/60 items-center justify-center p-4">
         <div class="comic-card w-full max-w-sm p-6 bg-white text-center">
             <h3 id="dialogMessage" class="text-sm font-black mb-4 uppercase text-black whitespace-pre-wrap"></h3>
@@ -486,7 +489,6 @@
         </div>
     </div>
 
-    <!-- Floating Persistent Admin Bar -->
     <div id="adminBar" class="fixed bottom-0 left-0 w-full bg-navy text-white z-[9999] border-t-4 border-black p-4 flex-col sm:flex-row justify-between items-center shadow-[0_-8px_0_0_rgba(0,0,0,0.2)]">
         <div class="flex items-center gap-4 mb-3 sm:mb-0">
             <span class="text-gold font-display text-lg tracking-widest"><i class="fa-solid fa-lock-open mr-2"></i> ADMIN</span>
@@ -498,7 +500,6 @@
         </div>
     </div>
 
-    <!-- SUPABASE INTEGRATION SCRIPT -->
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
@@ -643,7 +644,6 @@
         window.addEventListener('DOMContentLoaded', loadLayout);
     </script>
 
-    <!-- UI MANAGEMENT & TRANSLATION SCRIPT -->
     <script>
         const translations = {
             en: {
@@ -801,6 +801,17 @@
 
         window.openModal = function(id) { document.getElementById(id).classList.remove('hidden'); document.getElementById(id).classList.add('flex'); }
         window.closeModal = function(id) { document.getElementById(id).classList.add('hidden'); document.getElementById(id).classList.remove('flex'); }
+
+        window.toggleMobileMenu = function() {
+            const menu = document.getElementById('mobileMenu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menu.classList.add('flex');
+            } else {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+            }
+        }
 
         window.handleRegistration = async function(e) {
             e.preventDefault(); 
