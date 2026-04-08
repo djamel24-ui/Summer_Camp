@@ -394,7 +394,7 @@
         <div class="max-w-md mx-auto flex flex-col items-center">
             <h3 class="font-display text-royal text-xl mb-4" data-i18n="footer-qr">Register via WeChat</h3>
             <div class="border-4 border-black p-2 bg-lightGrey mb-6 inline-block transform -rotate-2 hover:rotate-0 transition">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=WeChatRegistrationMock" alt="WeChat QR" class="w-32 h-32 object-cover bg-white">
+                <img data-global-id="qr-footer" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=WeChatRegistrationMock" alt="WeChat QR" class="w-32 h-32 object-cover bg-white editable-img" onclick="window.editImageSrc(this)">
             </div>
             <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-2" data-i18n="footer">© 2026 Premium Language Centre</p>
             <p class="text-[10px] text-gray-400 font-bold">Email: Djamel24@premium.edu.my</p>
@@ -459,7 +459,7 @@
             
             <div class="mt-6 text-center">
                 <p class="text-[10px] font-black uppercase text-gray-500 mb-2">Or Scan WeChat QR</p>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=WeChatRegistrationMock" alt="WeChat QR" class="w-20 h-20 mx-auto border-2 border-black">
+                <img data-global-id="qr-modal" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=WeChatRegistrationMock" alt="WeChat QR" class="w-20 h-20 mx-auto border-2 border-black editable-img" onclick="window.editImageSrc(this)">
             </div>
         </div>
     </div>
