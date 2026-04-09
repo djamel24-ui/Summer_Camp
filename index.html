@@ -194,6 +194,7 @@
                 <a href="#city-tour" class="hover:underline text-black" data-i18n="nav-tour">City Tour</a>
                 <a href="#gallery-section" class="hover:underline text-black" data-i18n="nav-gallery">Gallery</a>
                 <a href="#accommodations" class="hover:underline text-black" data-i18n="nav-acc">Accommodations</a>
+                <a href="#building" class="hover:underline text-black" data-i18n="nav-building">Building</a>
                 
                 <div class="flex gap-3 items-center border-l-2 border-black pl-4">
                     <select id="lang-select" class="bg-transparent font-black outline-none cursor-pointer text-black" onchange="window.setLanguage(this.value)">
@@ -219,6 +220,7 @@
             <a href="#city-tour" class="p-4 border-b-2 border-gray-200" onclick="window.toggleMobileMenu()" data-i18n="nav-tour">City Tour</a>
             <a href="#gallery-section" class="p-4 border-b-2 border-gray-200" onclick="window.toggleMobileMenu()" data-i18n="nav-gallery">Gallery</a>
             <a href="#accommodations" class="p-4 border-b-2 border-gray-200" onclick="window.toggleMobileMenu()" data-i18n="nav-acc">Accommodations</a>
+            <a href="#building" class="p-4 border-b-2 border-gray-200" onclick="window.toggleMobileMenu()" data-i18n="nav-building">Building</a>
             <div class="p-4 bg-lightGrey">
                 <select class="bg-transparent font-black outline-none cursor-pointer text-black w-full" onchange="window.setLanguage(this.value); window.toggleMobileMenu()">
                     <option value="en">English</option>
@@ -373,6 +375,10 @@
 
             <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 admin-sortable-grid">
                 </div>
+
+            <div class="text-center mt-12 hidden">
+                <button id="gallery-toggle-btn" class="btn-pop px-8 py-3 text-sm font-black uppercase" onclick="window.toggleGallery()" data-i18n="gal-view-all">View All Memories</button>
+            </div>
         </section>
 
         <section id="city-tour" class="py-8">
@@ -392,6 +398,16 @@
             </div>
             
             <div id="acc-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 admin-sortable-grid">
+                </div>
+        </section>
+
+        <section id="building" class="py-8">
+            <div class="flex justify-between items-center mb-10">
+                <h2 class="text-3xl md:text-4xl font-display text-black" data-i18n="building-title">PREMIUM CENTRE <span class="text-royal">BUILDING</span></h2>
+                <button class="admin-controls btn-pop px-3 py-1 text-xs font-black uppercase" onclick="window.addImage('building-grid', 'New Facility')">+ Add Image</button>
+            </div>
+            
+            <div id="building-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 px-4 admin-sortable-grid">
                 </div>
         </section>
 
@@ -518,7 +534,7 @@
                     document.activeElement.blur();
                 }
 
-                const state = { tour: [], acc: [], driveData: [], globals: {} };
+                const state = { tour: [], acc: [], building: [], driveData: [], globals: {} };
 
                 document.querySelectorAll('#tour-grid .polaroid').forEach(el => {
                     const text = el.querySelector('.editable-text');
@@ -530,6 +546,12 @@
                     const text = el.querySelector('.editable-text');
                     const img = el.querySelector('img');
                     if(text && img) state.acc.push({ label: text.innerText, img: img.src, hidden: el.style.display === 'none' });
+                });
+
+                document.querySelectorAll('#building-grid .polaroid').forEach(el => {
+                    const text = el.querySelector('.editable-text');
+                    const img = el.querySelector('img');
+                    if(text && img) state.building.push({ label: text.innerText, img: img.src, hidden: el.style.display === 'none' });
                 });
 
                 document.querySelectorAll('#gallery-grid .polaroid').forEach(el => {
@@ -573,6 +595,9 @@
 
                     if(state.acc && state.acc.length > 0) window.rebuildGrid('acc-grid', state.acc);
                     else window.setDefaultGrid('acc-grid');
+
+                    if(state.building && state.building.length > 0) window.rebuildGrid('building-grid', state.building);
+                    else window.setDefaultGrid('building-grid');
                     
                     if(state.globals) {
                         document.querySelectorAll('[data-global-id]').forEach(el => {
@@ -586,11 +611,13 @@
                 } else {
                     window.setDefaultGrid('tour-grid');
                     window.setDefaultGrid('acc-grid');
+                    window.setDefaultGrid('building-grid');
                 }
             } catch (err) {
                 console.error("Load failed:", err);
                 window.setDefaultGrid('tour-grid');
                 window.setDefaultGrid('acc-grid');
+                window.setDefaultGrid('building-grid');
             }
         }
 
@@ -616,6 +643,11 @@
                     { label: 'Student Dorms', img: 'https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=600' },
                     { label: 'Dining Hall', img: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600' },
                     { label: 'Facilities', img: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=600' }
+                ],
+                'building-grid': [
+                    { label: 'Main Entrance', img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=600' },
+                    { label: 'Modern Classrooms', img: 'https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=600' },
+                    { label: 'Student Lounge', img: 'https://images.unsplash.com/photo-1527853787696-f7be74f2e39a?auto=format&fit=crop&w=600' }
                 ]
             };
             window.rebuildGrid(containerId, defaults[containerId]);
@@ -626,10 +658,14 @@
             div.className = 'polaroid';
             div.style.display = isHidden ? 'none' : 'block';
             div.setAttribute('draggable', window.isAdmin ? 'true' : 'false');
-            const icon = containerId === 'acc-grid' ? 'fa-bed' : 'fa-location-dot';
+            
+            let icon = 'fa-location-dot';
+            if(containerId === 'acc-grid') icon = 'fa-bed';
+            if(containerId === 'building-grid') icon = 'fa-building';
+
             div.innerHTML = `
                 <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
-                <div class="location-tag mb-2 ${containerId === 'acc-grid' ? 'bg-navy' : ''}">
+                <div class="location-tag mb-2 ${(containerId === 'acc-grid' || containerId === 'building-grid') ? 'bg-navy' : ''}">
                     <i class="fa-solid ${icon}"></i> <span contenteditable="${window.isAdmin}" class="editable-text" onfocus="window.isEditing=true" onblur="window.isEditing=false">${label}</span> <i class="fa-solid fa-chevron-right ml-2"></i>
                 </div>
                 <img src="${imgUrl}" class="w-full aspect-square object-cover border border-black mb-4 pointer-events-none" onclick="window.editImageSrc(this)" onerror="this.src='https://placehold.co/600x600?text=Invalid+Image'">
@@ -648,7 +684,7 @@
         const translations = {
             en: {
                 "brand": "PREMIUM LANGUAGE CENTRE",
-                "nav-crew": "Crew", "nav-packages": "Packages", "nav-tour": "City Tour", "nav-gallery": "Gallery", "nav-acc": "Accommodations", "nav-apply": "Apply Now",
+                "nav-crew": "Crew", "nav-packages": "Packages", "nav-tour": "City Tour", "nav-gallery": "Gallery", "nav-acc": "Accommodations", "nav-building": "Building", "nav-apply": "Apply Now",
                 "hero-badge": "Winter & Summer 2026",
                 "hero-title": "MASTER ENGLISH.<br><span class='text-gold'>DISCOVER MALAYSIA.</span>",
                 "hero-sub": "A vibrant immersive journey in the heart of Kuala Lumpur.",
@@ -674,8 +710,11 @@
                 "ben-full": "Premium Accomm, All Meals, All Trips, Airport VIP",
                 "gal-title": "CAMP <span class='text-sky'>MEMORIES</span>",
                 "gal-status": "Diving in... Fetching from Drive",
+                "gal-view-all": "View All Memories",
+                "gal-show-less": "Show Less",
                 "tour-title": "MALAYSIAN <span class='text-sky'>CITY TOUR</span>",
                 "acc-title": "PREMIUM <span class='text-gold'>ACCOMMODATIONS</span>",
+                "building-title": "PREMIUM CENTRE <span class='text-royal'>BUILDING</span>",
                 "footer-qr": "Register via WeChat",
                 "footer": "© 2026 Premium Language Centre",
                 "modal-title": "SECURE YOUR SPOT",
@@ -689,7 +728,7 @@
             },
             zh: {
                 "brand": "高级语言中心",
-                "nav-crew": "团队", "nav-packages": "套餐", "nav-tour": "城市游", "nav-gallery": "画廊", "nav-acc": "住宿", "nav-apply": "立即申请",
+                "nav-crew": "团队", "nav-packages": "套餐", "nav-tour": "城市游", "nav-gallery": "画廊", "nav-acc": "住宿", "nav-building": "教学楼", "nav-apply": "立即申请",
                 "hero-badge": "2026 冬夏令营",
                 "hero-title": "掌握英语。<br><span class='text-gold'>探索马来西亚。</span>",
                 "hero-sub": "吉隆坡市中心的活力沉浸式旅程。",
@@ -715,8 +754,11 @@
                 "ben-full": "高级住宿, 一日三餐, 所有旅行, 机场VIP接机",
                 "gal-title": "营地 <span class='text-sky'>回忆</span>",
                 "gal-status": "正在加载...",
+                "gal-view-all": "查看所有回忆",
+                "gal-show-less": "收起",
                 "tour-title": "马来西亚 <span class='text-sky'>城市游</span>",
                 "acc-title": "高级 <span class='text-gold'>住宿</span>",
+                "building-title": "高级语言中心 <span class='text-royal'>大楼</span>",
                 "footer-qr": "微信扫码注册",
                 "footer": "© 2026 高级语言中心 版权所有",
                 "modal-title": "锁定名额",
@@ -730,7 +772,7 @@
             },
             ar: {
                 "brand": "مركز بريميوم للغات",
-                "nav-crew": "الطاقم", "nav-packages": "الباقات", "nav-tour": "جولة المدينة", "nav-gallery": "معرض", "nav-acc": "الإقامة", "nav-apply": "قدم الآن",
+                "nav-crew": "الطاقم", "nav-packages": "الباقات", "nav-tour": "جولة المدينة", "nav-gallery": "معرض", "nav-acc": "الإقامة", "nav-building": "المبنى", "nav-apply": "قدم الآن",
                 "hero-badge": "شتاء وصيف 2026",
                 "hero-title": "أتقن الإنجليزية.<br><span class='text-gold'>اكتشف ماليزيا.</span>",
                 "hero-sub": "رحلة حيوية غامرة في قلب كوالالمبور.",
@@ -756,8 +798,11 @@
                 "ben-full": "إقامة مميزة، جميع الوجبات، جميع الرحلات، استقبال VIP",
                 "gal-title": "ذكريات <span class='text-sky'>المخيم</span>",
                 "gal-status": "جاري التحميل...",
+                "gal-view-all": "عرض كل الذكريات",
+                "gal-show-less": "عرض أقل",
                 "tour-title": "جولات <span class='text-sky'>المدينة</span>",
                 "acc-title": "إقامات <span class='text-gold'>مميزة</span>",
+                "building-title": "مبنى <span class='text-royal'>المركز</span>",
                 "footer-qr": "سجل عبر وي شات",
                 "footer": "© 2026 مركز بريميوم للغات",
                 "modal-title": "احجز مقعدك",
@@ -834,6 +879,25 @@
             finally { submitBtn.innerText = originalText; submitBtn.disabled = false; }
         };
 
+        // NEW: Toggle Gallery Function
+        window.galleryExpanded = false;
+        window.toggleGallery = function() {
+            const hiddenItems = document.querySelectorAll('.overflow-gallery');
+            const btn = document.getElementById('gallery-toggle-btn');
+            const lang = document.documentElement.lang || 'en';
+            
+            if (!window.galleryExpanded) {
+                hiddenItems.forEach(item => { if(item.style.display !== 'none') item.classList.remove('hidden'); });
+                btn.innerHTML = translations[lang]['gal-show-less'];
+                window.galleryExpanded = true;
+            } else {
+                hiddenItems.forEach(item => item.classList.add('hidden'));
+                btn.innerHTML = translations[lang]['gal-view-all'];
+                window.galleryExpanded = false;
+                document.getElementById('gallery-section').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
         // Dialog logic
         let dialogCallback = null;
         window.showDialog = function({ type, msg, defaultVal = '', callback }) {
@@ -860,11 +924,22 @@
                 document.body.classList.remove('admin-mode');
                 document.body.style.paddingBottom = '0px';
                 window.toggleEditable(false);
+                
+                // Hide gallery overflow items when exiting admin
+                if(!window.galleryExpanded) {
+                    document.querySelectorAll('.overflow-gallery').forEach(el => el.classList.add('hidden'));
+                }
+                const toggleContainer = document.getElementById('gallery-toggle-btn')?.parentElement;
+                if(toggleContainer && document.querySelectorAll('.overflow-gallery').length > 0) {
+                    toggleContainer.classList.remove('hidden');
+                }
+
                 window.customAlert("Admin mode deactivated.");
                 return;
             }
             window.openModal('adminModal');
         }
+        
         window.checkAdmin = function() {
             const pwd = document.getElementById('adminPwd').value;
             if (pwd === "admin123") {
@@ -872,12 +947,21 @@
                 document.body.classList.add('admin-mode');
                 document.body.style.paddingBottom = '80px';
                 window.toggleEditable(true);
+
+                // Reveal all hidden gallery items for editing
+                document.querySelectorAll('.overflow-gallery').forEach(el => {
+                    if(el.style.display !== 'none') el.classList.remove('hidden');
+                });
+                const toggleContainer = document.getElementById('gallery-toggle-btn')?.parentElement;
+                if(toggleContainer) toggleContainer.classList.add('hidden');
+
                 window.initDragAndDrop();
                 window.closeModal('adminModal');
                 document.getElementById('adminPwd').value = '';
                 window.customAlert("Admin Mode Active!");
             } else { window.customAlert("Incorrect Password."); }
         }
+        
         window.toggleEditable = function(state) {
             document.querySelectorAll('.editable-text').forEach(el => el.setAttribute('contenteditable', state));
             document.querySelectorAll('.polaroid').forEach(el => el.setAttribute('draggable', state ? 'true' : 'false'));
@@ -942,12 +1026,21 @@
                 if (res.ok) {
                     const grid = document.getElementById('gallery-grid');
                     grid.innerHTML = '';
-                    data.files.filter(f => f.mimeType.startsWith('image/')).forEach(file => {
+                    const images = data.files.filter(f => f.mimeType.startsWith('image/'));
+                    
+                    images.forEach((file, index) => {
                         const thumb = file.thumbnailLink ? file.thumbnailLink.replace(/=s\d+/, '=s600') : '';
                         const existing = window.savedDriveData.find(d => d.img === thumb);
                         const card = document.createElement('div');
                         card.className = 'polaroid';
+                        
+                        if (index >= 6) {
+                            card.classList.add('overflow-gallery');
+                            if (!window.galleryExpanded && !window.isAdmin) card.classList.add('hidden');
+                        }
+                        
                         if (existing && existing.hidden) card.style.display = 'none';
+                        
                         card.innerHTML = `
                             <div class="hide-btn" onclick="window.hideImage(this)"><i class="fa-solid fa-eye-slash"></i></div>
                             <div class="location-tag mb-2"><i class="fa-solid fa-camera"></i> <span contenteditable="${window.isAdmin}" class="editable-text">${existing?existing.label:'Camp Memory'}</span> <i class="fa-solid fa-chevron-right ml-2"></i></div>
@@ -957,6 +1050,9 @@
                         grid.appendChild(card);
                     });
                     document.getElementById('status').innerText = `Gallery Feed Loaded!`;
+
+                    const btnContainer = document.getElementById('gallery-toggle-btn').parentElement;
+                    if (images.length > 6 && !window.isAdmin) btnContainer.classList.remove('hidden');
                 }
             } catch (err) { document.getElementById('status').innerText = "Gallery Offline"; }
         };
