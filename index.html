@@ -414,13 +414,28 @@
     </main>
 
     <footer class="bg-white border-t-4 border-black py-12 text-center relative">
-        <div class="max-w-md mx-auto flex flex-col items-center">
-            <h3 class="font-display text-royal text-xl mb-4" data-i18n="footer-qr">Register via WeChat</h3>
-            <div class="border-4 border-black p-2 bg-lightGrey mb-6 inline-block transform -rotate-2 hover:rotate-0 transition">
-                <img data-global-id="qr-footer" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=WeChatRegistrationMock" alt="WeChat QR" class="w-32 h-32 object-cover bg-white editable-img" onclick="window.editImageSrc(this)">
+        <div class="max-w-2xl mx-auto flex flex-col items-center px-4">
+            
+            <div class="flex flex-col sm:flex-row gap-8 mb-8 justify-center">
+                <!-- WeChat QR -->
+                <div class="flex flex-col items-center">
+                    <h3 class="font-display text-royal text-base md:text-xl mb-4" data-i18n="footer-qr">Register via WeChat</h3>
+                    <div class="border-4 border-black p-2 bg-lightGrey inline-block transform -rotate-2 hover:rotate-0 transition">
+                        <img data-global-id="qr-footer" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=WeChatRegistrationMock" alt="WeChat QR" class="w-24 h-24 sm:w-32 sm:h-32 object-cover bg-white editable-img" onclick="window.editImageSrc(this)">
+                    </div>
+                </div>
+
+                <!-- WhatsApp QR -->
+                <div class="flex flex-col items-center">
+                    <h3 class="font-display text-emerald-600 text-base md:text-xl mb-4" data-i18n="footer-qr-wa">Register via WhatsApp</h3>
+                    <div class="border-4 border-black p-2 bg-lightGrey inline-block transform rotate-2 hover:rotate-0 transition">
+                        <img data-global-id="qr-footer-wa" src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=WhatsAppRegistrationMock" alt="WhatsApp QR" class="w-24 h-24 sm:w-32 sm:h-32 object-cover bg-white editable-img" onclick="window.editImageSrc(this)">
+                    </div>
+                </div>
             </div>
+
             <p class="text-xs font-black uppercase tracking-widest text-gray-500 mb-2" data-i18n="footer">© 2026 PECSB</p>
-            <p class="text-[10px] text-gray-400 font-bold">Email: Djamel24@premium.edu.my</p>
+            <p class="text-[10px] sm:text-xs text-gray-400 font-bold">Email: djamel24@premium.edu.my <span class="mx-2 hidden sm:inline">|</span><br class="sm:hidden"> Phone: +60169000098</p>
             
             <div class="mt-8 text-gray-300 hover:text-royal transition cursor-pointer" onclick="window.toggleAdmin()">
                 <i class="fa-solid fa-lock text-2xl" title="Admin Access"></i>
@@ -478,9 +493,15 @@
                 </div>
             </form>
             
-            <div class="mt-6 text-center">
-                <p class="text-[10px] font-black uppercase text-gray-500 mb-2">Or Scan WeChat QR</p>
-                <img data-global-id="qr-modal" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=WeChatRegistrationMock" alt="WeChat QR" class="w-20 h-20 mx-auto border-2 border-black editable-img" onclick="window.editImageSrc(this)">
+            <div class="mt-8 flex justify-center gap-6 sm:gap-10">
+                <div class="text-center">
+                    <p class="text-[10px] font-black uppercase text-gray-500 mb-2" data-i18n="modal-qr-wechat">Or Scan WeChat QR</p>
+                    <img data-global-id="qr-modal" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=WeChatRegistrationMock" alt="WeChat QR" class="w-16 h-16 sm:w-20 sm:h-20 mx-auto border-2 border-black editable-img" onclick="window.editImageSrc(this)">
+                </div>
+                <div class="text-center">
+                    <p class="text-[10px] font-black uppercase text-gray-500 mb-2" data-i18n="modal-qr-wa">Or Scan WhatsApp QR</p>
+                    <img data-global-id="qr-modal-wa" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=WhatsAppRegistrationMock" alt="WhatsApp QR" class="w-16 h-16 sm:w-20 sm:h-20 mx-auto border-2 border-black editable-img" onclick="window.editImageSrc(this)">
+                </div>
             </div>
         </div>
     </div>
@@ -716,6 +737,7 @@
                 "acc-title": "PREMIUM <span class='text-gold'>ACCOMMODATIONS</span>",
                 "building-title": "PREMIUM CENTRE <span class='text-royal'>BUILDING</span>",
                 "footer-qr": "Register via WeChat",
+                "footer-qr-wa": "Register via WhatsApp",
                 "footer": "© 2026 PECSB",
                 "modal-title": "SECURE YOUR SPOT",
                 "modal-sub": "Fast Registration via Email",
@@ -724,7 +746,9 @@
                 "form-kids": "Kids Number*",
                 "form-pkg": "Choosing Package*",
                 "form-contact": "WhatsApp / WeChat ID*",
-                "form-btn": "Confirm Registration"
+                "form-btn": "Confirm Registration",
+                "modal-qr-wechat": "Or Scan WeChat QR",
+                "modal-qr-wa": "Or Scan WhatsApp QR"
             },
             zh: {
                 "brand": "高级语言中心",
@@ -760,6 +784,7 @@
                 "acc-title": "高级 <span class='text-gold'>住宿</span>",
                 "building-title": "高级语言中心 <span class='text-royal'>大楼</span>",
                 "footer-qr": "微信扫码注册",
+                "footer-qr-wa": "通过WhatsApp注册",
                 "footer": "© 2026 高级语言中心 版权所有",
                 "modal-title": "锁定名额",
                 "modal-sub": "通过电子邮件快速注册",
@@ -768,7 +793,9 @@
                 "form-kids": "儿童人数*",
                 "form-pkg": "选择套餐*",
                 "form-contact": "WhatsApp / 微信号*",
-                "form-btn": "确认注册"
+                "form-btn": "确认注册",
+                "modal-qr-wechat": "或扫描微信二维码",
+                "modal-qr-wa": "或扫描WhatsApp二维码"
             },
             ar: {
                 "brand": "مركز بريميوم للغات",
@@ -804,6 +831,7 @@
                 "acc-title": "إقامات <span class='text-gold'>مميزة</span>",
                 "building-title": "مبنى <span class='text-royal'>المركز</span>",
                 "footer-qr": "سجل عبر وي شات",
+                "footer-qr-wa": "سجل عبر واتساب",
                 "footer": "© 2026 مركز بريميوم للغات",
                 "modal-title": "احجز مقعدك",
                 "modal-sub": "تسجيل سريع عبر البريد",
@@ -812,7 +840,9 @@
                 "form-kids": "عدد الأطفال*",
                 "form-pkg": "اختيار الباقة*",
                 "form-contact": "رقم واتساب / وي شات*",
-                "form-btn": "تأكيد التسجيل"
+                "form-btn": "تأكيد التسجيل",
+                "modal-qr-wechat": "أو امسح رمز وي شات",
+                "modal-qr-wa": "أو امسح رمز واتساب"
             }
         };
 
